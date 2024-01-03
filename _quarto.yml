@@ -8,7 +8,7 @@ website:
       - text: Home
         href: index.qmd
       - icon: github
-        href: https://gitlab.health.state.mn.us
+        href: https://github.com/tidy-MN/qualitative-guide
 format:
   html:
     theme: minty
