@@ -1,0 +1,186 @@
+---
+title: "2 — Count words"
+date: "2024-01-02"
+date-modified: last-modified
+image: "two.jpg"
+format:
+  html:
+    toc: true
+    warning: false
+    message: false
+    fig-width: 2
+tbl-colwidths: [25,75]
+categories: [count, words, terms, tokens]
+filters:
+  - line-highlight
+---
+
+
+## Load the data
+```{r}
+#| cache: true
+
+library(tidyverse)
+
+tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+```
+
+
+## Count totals in each group or category
+```{r}
+library(tidyverse)
+
+type_count <- tv_ratings %>%
+              count(type) # type can be any column in the data
+
+type_count
+```
+
+
+## Count totals by release year for each type
+```{r}
+year_type_count <- tv_ratings %>%
+                   count(release_year, type) # Add multiple column names
+
+year_type_count %>% head()
+```
+
+
+## Add results to a wide format table with totals
+```{r}
+library(janitor)
+
+tv_tabyl <- tv_ratings %>%
+            tabyl(release_year, type) %>%
+            adorn_totals() 
+
+tv_tabyl %>% head() 
+```
+
+
+## Rank occurence of words
+
+> `tokens` = words or phrases
+
+Top **10** words in the genre column.
+
+```{r}
+library(tidytext)
+
+genre_count <- tv_ratings %>%
+               unnest_tokens(word, listed_in) %>%
+               count(word, sort = TRUE)
+
+genre_count %>% head(10)
+```
+
+
+## Additional token options
+
+::: {.panel-tabset}
+
+### Count 2-word phrases
+
+```{r}
+#| source-line-numbers: "2"
+genre_count <- tv_ratings %>%
+               unnest_ngrams(word, listed_in, n = 2) %>%
+               count(word, sort = TRUE) 
+
+genre_count %>% head(10)
+```
+
+### Split phrases separated by a comma
+
+Since multiple genres are separated by a comma, we can treat each phrase before and after a comma as a single genre or token.
+
+```{r}
+#| source-line-numbers: "2"
+genre_count <- tv_ratings %>%
+               unnest_regex(word, listed_in, pattern = ", ") %>%
+               count(word, sort = TRUE) 
+
+genre_count %>% head(10)
+```
+
+:::
+
+## Exclude vanilla stop words
+
+> `stop words` = Common words or phrases you don't want to include, such as `the`, `of`, and `to`.
+
+Create a list of the default stop words.
+
+```{r}
+exclude <- get_stopwords()$word
+
+exclude %>% head()
+```
+
+
+First, let's count the occurrence of all words in the show descriptions.
+
+```{r}
+word_count <- tv_ratings %>%
+              unnest_tokens(word, description) %>%
+              count(word, sort = TRUE) 
+
+word_count %>% head(10)
+```
+
+
+Now we'll exclude the stop words from the list with `filter()`.
+```{r}
+#| source-line-numbers: "3"
+word_count <- tv_ratings %>%
+              unnest_tokens(word, description) %>%
+              filter(!word %in% exclude) %>%
+              count(word, sort = TRUE) 
+
+word_count %>% head(10)
+```
+
+## Additional stop word options
+
+::: {.panel-tabset}
+
+### Exclude more words
+
+```{r}
+#| source-line-numbers: "1-4"
+exclude <- c(get_stopwords()$word,
+              "new",
+              "series",
+              "one",
+              "two",
+              "documentary")
+
+word_count <- tv_ratings %>%
+              unnest_tokens(word, description) %>%
+              filter(!word %in% exclude) %>%
+              count(word, sort = TRUE) 
+
+word_count %>% head(10)
+```
+
+
+### Keep some words
+
+```{r}
+#| source-line-numbers: "3-5"
+exclude <- get_stopwords()$word
+
+keep <- c("when", "while", "they")
+
+exclude <- exclude[!exclude %in% keep]
+
+word_count <- tv_ratings %>%
+              unnest_tokens(word, description) %>%
+              filter(!word %in% exclude) %>%
+              count(word, sort = TRUE) 
+
+word_count %>% head(14)
+```
+
+:::
+

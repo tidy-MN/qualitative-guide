@@ -1,0 +1,29 @@
+---
+title: "3 — Group and code responses"
+date: "2024-01-02"
+date-modified: last-modified
+image: "sort_elmo.png"
+format:
+  html:
+    toc: true
+    warning: false
+    message: false
+categories: [code, group, themes]
+---
+
+## Load the data
+```{r}
+#| cache: true
+
+library(tidyverse)
+
+tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+```
+
+
+## Assign groups 
+
+
+## Parent and child nodes
+
+

@@ -1,0 +1,18 @@
+project:
+  type: website
+
+website:
+  title: "Qualitative guide for R"
+  navbar:
+    right:
+      - text: Home
+        href: index.qmd
+      - icon: github
+        href: https://gitlab.health.state.mn.us
+format:
+  html:
+    theme: minty
+    css: styles.css
+
+
+

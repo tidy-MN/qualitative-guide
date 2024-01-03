@@ -1,0 +1,359 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Topics",
+    "section": "",
+    "text": "1 — Overview of R packages\n\n\n\n\n\n\n\npackages\n\n\n\n\n\n\n\n\n\n\n\nJan 2, 2024\n\n\n\n\n\n\n  \n\n\n\n\n2 — Count words\n\n\n\n\n\n\n\ncount\n\n\nwords\n\n\nterms\n\n\ntokens\n\n\n\n\n\n\n\n\n\n\n\nJan 2, 2024\n\n\n\n\n\n\n  \n\n\n\n\n3 — Group and code responses\n\n\n\n\n\n\n\ncode\n\n\ngroup\n\n\nthemes\n\n\n\n\n\n\n\n\n\n\n\nJan 2, 2024\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/2. Group responses/index.html",
+    "href": "posts/2. Group responses/index.html",
+    "title": "Group responses",
+    "section": "",
+    "text": "Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/1. Count words/index.html",
+    "href": "posts/1. Count words/index.html",
+    "title": "1. Count words",
+    "section": "",
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html",
+    "href": "posts/1_count_words/index.html",
+    "title": "1 — Count words",
+    "section": "",
+    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+  },
+  {
+    "objectID": "posts/2_group_responses/index.html",
+    "href": "posts/2_group_responses/index.html",
+    "title": "2 — Group responses",
+    "section": "",
+    "text": "Welcome!"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#load-the-data",
+    "href": "posts/1_count_words/index.html#load-the-data",
+    "title": "1 — Count words",
+    "section": "",
+    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#count-totals-of-each-type",
+    "href": "posts/1_count_words/index.html#count-totals-of-each-type",
+    "title": "1 — Count words",
+    "section": "Count totals of each type",
+    "text": "Count totals of each type\n\nlibrary(tidyverse)\nlibrary(kableExtra)\n\ntype_count &lt;- tv_ratings %&gt;%\n              count(type)\n\ntype_count\n\n# A tibble: 2 × 2\n  type        n\n  &lt;chr&gt;   &lt;int&gt;\n1 Movie    5377\n2 TV Show  2410"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#count-totals-of-each-type-by-release_year",
+    "href": "posts/1_count_words/index.html#count-totals-of-each-type-by-release_year",
+    "title": "1 — Count words",
+    "section": "Count totals of each type by release_year",
+    "text": "Count totals of each type by release_year\n\nyear_type_count &lt;- tv_ratings %&gt;%\n                      count(release_year, type)\n\nyear_type_count %&gt;% head()\n\n# A tibble: 6 × 3\n  release_year type        n\n         &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt;\n1         1925 TV Show     1\n2         1942 Movie       2\n3         1943 Movie       3\n4         1944 Movie       3\n5         1945 Movie       3\n6         1946 Movie       1"
+  },
+  {
+    "objectID": "posts/0_example_data/index.html",
+    "href": "posts/0_example_data/index.html",
+    "title": "_Example data",
+    "section": "",
+    "text": "#| cache: true\n\nlibrary(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n\nglimpse(tv_ratings)"
+  },
+  {
+    "objectID": "posts/0_example_data/index.html#get-the-tv-rating-data",
+    "href": "posts/0_example_data/index.html#get-the-tv-rating-data",
+    "title": "_Example data",
+    "section": "",
+    "text": "#| cache: true\n\nlibrary(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n\nglimpse(tv_ratings)"
+  },
+  {
+    "objectID": "posts/0_example_data/index.html#view-the-first-few-descriptions",
+    "href": "posts/0_example_data/index.html#view-the-first-few-descriptions",
+    "title": "_Example data",
+    "section": "View the first few descriptions",
+    "text": "View the first few descriptions\nlibrary(DT)\n\ndatatable(tv_ratings %&gt;% head(15), options = list(pageLength = 5))"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#show-results-in-a-wide-table",
+    "href": "posts/1_count_words/index.html#show-results-in-a-wide-table",
+    "title": "1 — Count words",
+    "section": "Show results in a wide table",
+    "text": "Show results in a wide table\n\nlibrary(janitor)\n\ntabyl(tv_ratings, release_year, type) %&gt;%\n  filter(release_year &lt; 1980) %&gt;%\n  adorn_totals() %&gt;%\n  knitr::kable()\n\n\n\n\nrelease_year\nMovie\nTV Show\n\n\n\n\n1925\n0\n1\n\n\n1942\n2\n0\n\n\n1943\n3\n0\n\n\n1944\n3\n0\n\n\n1945\n3\n0\n\n\n1946\n1\n1\n\n\n1947\n1\n0\n\n\n1954\n2\n0\n\n\n1955\n3\n0\n\n\n1956\n2\n0\n\n\n1958\n3\n0\n\n\n1959\n1\n0\n\n\n1960\n4\n0\n\n\n1962\n3\n0\n\n\n1963\n1\n1\n\n\n1964\n1\n0\n\n\n1965\n2\n0\n\n\n1966\n1\n0\n\n\n1967\n4\n1\n\n\n1968\n4\n1\n\n\n1969\n2\n0\n\n\n1970\n2\n0\n\n\n1971\n5\n0\n\n\n1972\n3\n1\n\n\n1973\n10\n0\n\n\n1974\n6\n1\n\n\n1975\n6\n0\n\n\n1976\n9\n0\n\n\n1977\n6\n1\n\n\n1978\n6\n0\n\n\n1979\n10\n1\n\n\nTotal\n109\n9"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#results-in-a-wide-table-with-totals",
+    "href": "posts/1_count_words/index.html#results-in-a-wide-table-with-totals",
+    "title": "1 — Count words",
+    "section": "Results in a wide table with totals",
+    "text": "Results in a wide table with totals\n\nlibrary(janitor)\n\ntv_ratings %&gt;%\n  tabyl(release_year, type) %&gt;%\n  filter(release_year &lt; 1960) %&gt;%\n  adorn_totals() %&gt;%\n  knitr::kable()\n\n\n\n\nrelease_year\nMovie\nTV Show\n\n\n\n\n1925\n0\n1\n\n\n1942\n2\n0\n\n\n1943\n3\n0\n\n\n1944\n3\n0\n\n\n1945\n3\n0\n\n\n1946\n1\n1\n\n\n1947\n1\n0\n\n\n1954\n2\n0\n\n\n1955\n3\n0\n\n\n1956\n2\n0\n\n\n1958\n3\n0\n\n\n1959\n1\n0\n\n\nTotal\n24\n2"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#rank-occurence-of-words",
+    "href": "posts/1_count_words/index.html#rank-occurence-of-words",
+    "title": "1 — Count words",
+    "section": "Rank occurence of words",
+    "text": "Rank occurence of words\n\ntokens = words or phrases\n\nTop 10 words in the show’s genre description.\n\nlibrary(tidytext)\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, listed_in) %&gt;%\n              count(word) %&gt;%\n              arrange(-n) %&gt;%\n              head(10)\n\nword_count\n\n# A tibble: 10 × 2\n   word              n\n   &lt;chr&gt;         &lt;int&gt;\n 1 movies         4989\n 2 tv             4972\n 3 international  3636\n 4 dramas         2810\n 5 shows          2612\n 6 comedies       1996\n 7 action          871\n 8 adventure       871\n 9 romantic        864\n10 documentaries   786"
+  },
+  {
+    "objectID": "posts/1_count_words/index.html#exclude-stop-words-unwanted-words",
+    "href": "posts/1_count_words/index.html#exclude-stop-words-unwanted-words",
+    "title": "1 — Count words",
+    "section": "Exclude stop words / unwanted words",
+    "text": "Exclude stop words / unwanted words\n\nstop words = Common words or phrases that don’t provide value\n\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, listed_in) %&gt;%\n              count(word) %&gt;%\n              arrange(-n) %&gt;%\n              head(10)\n\nword_count\n\n# A tibble: 10 × 2\n   word              n\n   &lt;chr&gt;         &lt;int&gt;\n 1 movies         4989\n 2 tv             4972\n 3 international  3636\n 4 dramas         2810\n 5 shows          2612\n 6 comedies       1996\n 7 action          871\n 8 adventure       871\n 9 romantic        864\n10 documentaries   786"
+  },
+  {
+    "objectID": "posts/0_package_overview/index.html",
+    "href": "posts/0_package_overview/index.html",
+    "title": "Package overview",
+    "section": "",
+    "text": "R comes installed with many built-in functions and tools to help do your work.\nOn top of this foundation, often referred to as base R, contributors have created tools that can make R easier to use and perform new tasks. These add-ons are called packages. These are made available to everyone to download for free."
+  },
+  {
+    "objectID": "posts/0_package_overview/index.html#recommended-packages",
+    "href": "posts/0_package_overview/index.html#recommended-packages",
+    "title": "Package overview",
+    "section": "",
+    "text": "General toolbox\n\ntidyverse The tidyverse is an umbrella of helpful packages. One of the packages it includes is the readr package, which helps import data into R from different formats.\nThe 4 core tidyverse packages:\nreadr Load and save data into and out of R. dplyr Clean, transform, and summarize data. ggplot2 Plot, chart, and graph data.\nlubridate Working with dates, times, and time zones.\nSee the full list of tidyverse packages at https://www.tidyverse.org/packages/\n\nLoad data\n\nreadxl Load data from Excel\njanitor Clean and simplify column names\nDBI Load data from databases\nhaven Load SAS, SPSS, and Stata files\n\n\nManipulate data\n\ndplyr Essential shortcuts to subset, summarize, rearrange, and join data sets.\ntidyr Reshape tables and unpack multiple inputs stored in single cell.\nstringr Tools to edit and clean text and character strings.\nlubridate Tools to format dates and perform calculations based on time.\n\n\nCharts and visuals\n\nggplot2 Essential package for plots and charts.\n\n\nMaps\n\nleaflet Display spatial data and make interactive maps.\nsf Simple features for GIS and maps, a spatial format using data frames to perform spatial analysis.\n\n\nGeneral\n\nremotes Install packages directly from online sources like GitHub and Gitlab.\n\n\n\nTo use a package you first need to install it – much like a free App for your phone. To get a jump start on the workshop, you can copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio.\n\nnew_packages &lt;- c(\"tidyverse\", \"readxl\", \"janitor\", \"curl\")\n\ninstall.packages(new_packages)\n\n\n\nThen press ENTER to begin the installation. If all goes well, you should start to see some messages appear similar to this, which provide information on the installation progress.\n\n\nDid it work? Try running the code below to load the readr package from your library and see if it is installed.\n\nlibrary(readr)"
+  },
+  {
+    "objectID": "posts/0_package_overview/index.html#additional-recommended-packages",
+    "href": "posts/0_package_overview/index.html#additional-recommended-packages",
+    "title": "Package overview",
+    "section": "Additional recommended packages",
+    "text": "Additional recommended packages\n\nCharts and visuals\n\nggsave Export charts in various formats and sizes.\nhrbrthemes, ggthemes Chart themes for ggplot.\nviridis, wesanderson, ghibli Color palettes.\nrmarkdown Write summary reports and save as PDF, Word document, presentation, or website.\n\n\nLoad data\n\nsf Load data from GIS shapefiles. RODBC Load data from Oracle databases.\nRMySQL, RPostgresSQL, and RSQLite for connecting to SQL databases.\npdftools Read PDF documents.\nhaven Load data from SPSS, Stata and SAS. foreign Load data from Minitab and Systat.\nR.matlab Load data from Matlab.\n\n\nManipulate data\n\nstringr Tools to edit and clean text and character strings.\n\n\nMaps\n\ntidycensus Download Census and American Community Survey data.\nleaflet Display spatial data and make interactive maps. \n\nGeneral\n\nremotes Install packages directly from online sources like GitHub and Gitlab."
+  },
+  {
+    "objectID": "posts/0_package_overview/index.html#install-r-packages",
+    "href": "posts/0_package_overview/index.html#install-r-packages",
+    "title": "Package overview",
+    "section": "",
+    "text": "R comes installed with many built-in functions and tools to help do your work.\nOn top of this foundation, often referred to as base R, contributors have created tools that can make R easier to use and perform new tasks. These add-ons are called packages. These are made available to everyone to download for free."
+  },
+  {
+    "objectID": "posts/0_package_overview/index.html#packages-used-for-qualitative-analysis",
+    "href": "posts/0_package_overview/index.html#packages-used-for-qualitative-analysis",
+    "title": "Package overview",
+    "section": "Packages used for qualitative analysis",
+    "text": "Packages used for qualitative analysis\n\nGeneral toolbox\n\ntidyverse The tidyverse is an umbrella of helpful packages. One of the packages it includes is the readr package, which helps import data into R from different formats.\nThe core tidyverse packages:\nreadr Load and save data stored as plain text, such as Comma Separated Values (CSVs). dplyr Clean, filter, transform, summarize and join data sets. ggplot2 Plot, chart, and graph data.\nSee the full list of tidyverse packages at https://www.tidyverse.org/packages/\n\n\nLoad data\n\nreadxl Load data from Excel\nDBI Load data from databases with SQL\nhaven Load SAS, SPSS, and Stata files\njanitor Clean and simplify column names and remove duplicates\n\n\nAnalyze text data\n\nstringr Tools to edit and clean text and character strings.\nlubridate Tools to format dates and perform calculations based on time. tidytext Tools to count words and phrases and exclude stop words.\n\n\nCharts and visuals\n\nggplot2 Essential package for plots and charts.\n\n\nAdd R packages\nTo use a package you first need to install it – much like a free App for your phone. To get a jump start on the workshop, you can copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio.\n\nnew_packages &lt;- c(\"tidyverse\", \"readxl\", \"janitor\", \"curl\")\n\ninstall.packages(new_packages)\n\n\n\nThen press ENTER to begin the installation. If all goes well, you should start to see some messages appear similar to this, which provide information on the installation progress.\n\n\nDid it work? Try running the code below to load the readr package from your library and see if it is installed.\n\nlibrary(readr)"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html",
+    "href": "posts/2_count_words/index.html",
+    "title": "2 — Count words",
+    "section": "",
+    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#load-the-data",
+    "href": "posts/2_count_words/index.html#load-the-data",
+    "title": "2 — Count words",
+    "section": "",
+    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#count-totals-of-each-type",
+    "href": "posts/2_count_words/index.html#count-totals-of-each-type",
+    "title": "2 — Count words",
+    "section": "Count totals of each type",
+    "text": "Count totals of each type\n\nlibrary(tidyverse)\nlibrary(kableExtra)\n\ntype_count &lt;- tv_ratings %&gt;%\n              count(type)\n\ntype_count\n\n# A tibble: 2 × 2\n  type        n\n  &lt;chr&gt;   &lt;int&gt;\n1 Movie    5377\n2 TV Show  2410"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#count-totals-of-each-type-by-release_year",
+    "href": "posts/2_count_words/index.html#count-totals-of-each-type-by-release_year",
+    "title": "2 — Count words",
+    "section": "Count totals of each type by release_year",
+    "text": "Count totals of each type by release_year\n\nyear_type_count &lt;- tv_ratings %&gt;%\n                      count(release_year, type)\n\nyear_type_count %&gt;% head()\n\n# A tibble: 6 × 3\n  release_year type        n\n         &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt;\n1         1925 TV Show     1\n2         1942 Movie       2\n3         1943 Movie       3\n4         1944 Movie       3\n5         1945 Movie       3\n6         1946 Movie       1"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#results-in-a-wide-table-with-totals",
+    "href": "posts/2_count_words/index.html#results-in-a-wide-table-with-totals",
+    "title": "2 — Count words",
+    "section": "Results in a wide table with totals",
+    "text": "Results in a wide table with totals\n\nlibrary(janitor)\n\ntv_ratings %&gt;%\n  tabyl(release_year, type) %&gt;%\n  filter(release_year &lt; 1960) %&gt;%\n  adorn_totals() %&gt;%\n  knitr::kable()\n\n\n\n\nrelease_year\nMovie\nTV Show\n\n\n\n\n1925\n0\n1\n\n\n1942\n2\n0\n\n\n1943\n3\n0\n\n\n1944\n3\n0\n\n\n1945\n3\n0\n\n\n1946\n1\n1\n\n\n1947\n1\n0\n\n\n1954\n2\n0\n\n\n1955\n3\n0\n\n\n1956\n2\n0\n\n\n1958\n3\n0\n\n\n1959\n1\n0\n\n\nTotal\n24\n2"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#rank-occurence-of-words",
+    "href": "posts/2_count_words/index.html#rank-occurence-of-words",
+    "title": "2 — Count words",
+    "section": "Rank occurence of words",
+    "text": "Rank occurence of words\n\ntokens = words or phrases\n\nTop 10 words in the genre column.\n\nlibrary(tidytext)\n\ngenre_count &lt;- tv_ratings %&gt;%\n               unnest_tokens(word, listed_in) %&gt;%\n               count(word, sort = TRUE)\n\ngenre_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word              n\n   &lt;chr&gt;         &lt;int&gt;\n 1 movies         4989\n 2 tv             4972\n 3 international  3636\n 4 dramas         2810\n 5 shows          2612\n 6 comedies       1996\n 7 action          871\n 8 adventure       871\n 9 romantic        864\n10 documentaries   786"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#exclude-stop-words-unwanted-words",
+    "href": "posts/2_count_words/index.html#exclude-stop-words-unwanted-words",
+    "title": "2 — Count words",
+    "section": "Exclude stop words / unwanted words",
+    "text": "Exclude stop words / unwanted words\n\nstop words = Common words or phrases you don’t want to include, such as the, a, and of.\n\nView the full default list of stop words.\n\nexcluded &lt;- get_stopwords()\n\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, listed_in) %&gt;%\n              filter(!word %in% excluded) %&gt;%\n              count(word, sort = TRUE) %&gt;%\n              head(10)\n\nword_count\n\n# A tibble: 10 × 2\n   word              n\n   &lt;chr&gt;         &lt;int&gt;\n 1 movies         4989\n 2 tv             4972\n 3 international  3636\n 4 dramas         2810\n 5 shows          2612\n 6 comedies       1996\n 7 action          871\n 8 adventure       871\n 9 romantic        864\n10 documentaries   786"
+  },
+  {
+    "objectID": "posts/1_package_overview/index.html",
+    "href": "posts/1_package_overview/index.html",
+    "title": "1 — Overview of R packages",
+    "section": "",
+    "text": "R comes installed with many built-in functions and tools to help do your work.\nOn top of this foundation referred to as base R, contributors create tools to make R easier to use and perform new tasks. These add-ons are called packages. These are made available to everyone to download for free."
+  },
+  {
+    "objectID": "posts/1_package_overview/index.html#install-r-packages",
+    "href": "posts/1_package_overview/index.html#install-r-packages",
+    "title": "1 — Overview of R packages",
+    "section": "",
+    "text": "R comes installed with many built-in functions and tools to help do your work.\nOn top of this foundation referred to as base R, contributors create tools to make R easier to use and perform new tasks. These add-ons are called packages. These are made available to everyone to download for free."
+  },
+  {
+    "objectID": "posts/1_package_overview/index.html#packages-used-for-qualitative-analysis",
+    "href": "posts/1_package_overview/index.html#packages-used-for-qualitative-analysis",
+    "title": "1 — Overview of R packages",
+    "section": "Packages used for qualitative analysis",
+    "text": "Packages used for qualitative analysis\n\nGeneral toolbox\n\n\n\ntidyverse The tidyverse is an umbrella of helpful packages. One of the included packages is the readr package, which helps import data into R from a variety of formats.\n\nThe core tidyverse packages:\n\nreadr Load and save data stored as plain text, such as Comma Separated Values (CSVs).\n\ndplyr Clean, filter, transform, summarize and join data sets.\n\nggplot2 Plot, chart, and graph data.\n\nSee the full list of tidyverse packages at the tidyverse.\n\n\nLoad data\n\nreadxl Load data from Excel\nDBI Load data from databases with SQL\nhaven Load SAS, SPSS, and Stata files\njanitor Clean and simplify column names and remove duplicates\n\n\nAnalyze text data\n\nstringr Tools to edit and clean text and character strings.\nlubridate Tools to format dates and perform calculations based on time.\ntidytext Tools to count words and exclude stop words.\n\n\nCharts and visuals\n\nggplot2 Essential package for plots and charts.\n\n\nAdd R packages\nTo use a package you first need to install it – much like a free App for your phone. To get a jump start on the workshop, you can copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio.\n\nnew_packages &lt;- c(\"tidyverse\", \"tidytext\", \"janitor\", \"curl\", \"stopwords\")\n\ninstall.packages(new_packages)\n\n\n\nThen press ENTER to begin the installation. If all goes well, you should start to see some messages appear similar to below. These will provide information on the installation progress.\n\n\nDid it work? Try running the code below to load the tidyverse package from your library and see if it is installed.\n\nlibrary(tidyverse)"
+  },
+  {
+    "objectID": "posts/1_package_overview/index.html#additional-recommended-packages",
+    "href": "posts/1_package_overview/index.html#additional-recommended-packages",
+    "title": "1 — Overview of R packages",
+    "section": "Additional recommended packages",
+    "text": "Additional recommended packages\n\nCharts and visuals\n\nggsave Export charts in various formats and sizes.\nhrbrthemes, ggthemes Chart themes for ggplot.\nviridis, wesanderson, ghibli Color palettes.\nrmarkdown Write summary reports and save as a PDF, Word document, presentation, or a web report.\n\n\nLoad data\n\nsf Load data from GIS shapefiles.\nRODBC Load data from Oracle databases.\nRMySQL, RPostgresSQL, and RSQLite for connecting to SQL databases.\npdftools Read PDF documents.\nhaven Load data from SPSS, Stata and SAS.\nforeign Load data from Minitab and Systat.\nR.matlab Load data from Matlab.\n\n\nManipulate data\n\nstringr Tools to edit and clean text and character strings.\n\n\nMaps\n\ntidycensus Download Census and American Community Survey data.\nleaflet Display spatial data and make interactive maps. \n\nGeneral\n\nremotes Install packages directly from online sources like GitHub and Gitlab."
+  },
+  {
+    "objectID": "posts/3_group_responses/index.html",
+    "href": "posts/3_group_responses/index.html",
+    "title": "3 — Group and code responses",
+    "section": "",
+    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#additional-stop-word-options",
+    "href": "posts/2_count_words/index.html#additional-stop-word-options",
+    "title": "2 — Count words",
+    "section": "Additional stop word options",
+    "text": "Additional stop word options\n\nExclude additional wordsKeep some words\n\n\n\nexclude &lt;- c(get_stopwords()$word,\n              \"new\",\n              \"series\",\n              \"one\",\n              \"two\",\n              \"documentary\")\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, description) %&gt;%\n              filter(!word %in% exclude) %&gt;%\n              count(word, sort = TRUE) \n\nword_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word        n\n   &lt;chr&gt;   &lt;int&gt;\n 1 life      746\n 2 young     655\n 3 family    497\n 4 man       464\n 5 world     453\n 6 love      447\n 7 woman     402\n 8 friends   383\n 9 must      332\n10 find      305\n\n\n\n\n\nexclude &lt;- get_stopwords()$word\n\nkeep &lt;- c(\"when\", \"while\", \"they\")\n\nexclude &lt;- exclude[!exclude %in% keep]\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, description) %&gt;%\n              filter(!word %in% exclude) %&gt;%\n              count(word, sort = TRUE) \n\nword_count %&gt;% head(14)\n\n# A tibble: 14 × 2\n   word        n\n   &lt;chr&gt;   &lt;int&gt;\n 1 when     1325\n 2 life      746\n 3 young     655\n 4 new       613\n 5 family    497\n 6 man       464\n 7 they      456\n 8 world     453\n 9 love      447\n10 two       443\n11 woman     402\n12 friends   383\n13 series    358\n14 while     339"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#count-totals-in-each-groupcategory",
+    "href": "posts/2_count_words/index.html#count-totals-in-each-groupcategory",
+    "title": "2 — Count words",
+    "section": "Count totals in each group/category",
+    "text": "Count totals in each group/category\n\nlibrary(tidyverse)\nlibrary(kableExtra)\n\ntype_count &lt;- tv_ratings %&gt;%\n              count(type) # type can be any column in the data\n\ntype_count\n\n# A tibble: 2 × 2\n  type        n\n  &lt;chr&gt;   &lt;int&gt;\n1 Movie    5377\n2 TV Show  2410"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#count-totals-by-release-year-for-each-type",
+    "href": "posts/2_count_words/index.html#count-totals-by-release-year-for-each-type",
+    "title": "2 — Count words",
+    "section": "Count totals by release year for each type",
+    "text": "Count totals by release year for each type\n\nyear_type_count &lt;- tv_ratings %&gt;%\n                   count(release_year, type) # Add multiple column names\n\nyear_type_count %&gt;% head()\n\n# A tibble: 6 × 3\n  release_year type        n\n         &lt;dbl&gt; &lt;chr&gt;   &lt;int&gt;\n1         1925 TV Show     1\n2         1942 Movie       2\n3         1943 Movie       3\n4         1944 Movie       3\n5         1945 Movie       3\n6         1946 Movie       1"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#add-results-to-a-wide-format-table-with-totals",
+    "href": "posts/2_count_words/index.html#add-results-to-a-wide-format-table-with-totals",
+    "title": "2 — Count words",
+    "section": "Add results to a wide format table with totals",
+    "text": "Add results to a wide format table with totals\n\nlibrary(janitor)\n\ntv_tabyl &lt;- tv_ratings %&gt;%\n            tabyl(release_year, type) %&gt;%\n            adorn_totals() \n\ntv_tabyl %&gt;% head() \n\n release_year Movie TV Show\n         1925     0       1\n         1942     2       0\n         1943     3       0\n         1944     3       0\n         1945     3       0\n         1946     1       1"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#exclude-vanilla-stop-words-and-unwanted-words",
+    "href": "posts/2_count_words/index.html#exclude-vanilla-stop-words-and-unwanted-words",
+    "title": "2 — Count words",
+    "section": "Exclude vanilla stop words and unwanted words",
+    "text": "Exclude vanilla stop words and unwanted words\n\nstop words = Common words or phrases you don’t want to include, such as the, of, and it.\n\nView the full list of default stop words.\n\nexcluded &lt;- get_stopwords()$word\n\nexcluded %&gt;%\n  head()\n\n[1] \"i\"      \"me\"     \"my\"     \"myself\" \"we\"     \"our\"   \n\n\nExclude the stop words from the count list with filter().\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, listed_in) %&gt;%\n              filter(!word %in% excluded) %&gt;%\n              count(word, sort = TRUE) \n\nword_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word              n\n   &lt;chr&gt;         &lt;int&gt;\n 1 movies         4989\n 2 tv             4972\n 3 international  3636\n 4 dramas         2810\n 5 shows          2612\n 6 comedies       1996\n 7 action          871\n 8 adventure       871\n 9 romantic        864\n10 documentaries   786"
+  },
+  {
+    "objectID": "index.html#get-the-tv-rating-data",
+    "href": "index.html#get-the-tv-rating-data",
+    "title": "_Example data",
+    "section": "",
+    "text": "#| cache: true\n\nlibrary(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n\nglimpse(tv_ratings)"
+  },
+  {
+    "objectID": "index.html#view-the-first-few-descriptions",
+    "href": "index.html#view-the-first-few-descriptions",
+    "title": "_Example data",
+    "section": "View the first few descriptions",
+    "text": "View the first few descriptions\nlibrary(DT)\n\ndatatable(tv_ratings %&gt;% head(15), options = list(pageLength = 5))"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#count-totals-in-each-group-or-category",
+    "href": "posts/2_count_words/index.html#count-totals-in-each-group-or-category",
+    "title": "2 — Count words",
+    "section": "Count totals in each group or category",
+    "text": "Count totals in each group or category\n\nlibrary(tidyverse)\n\ntype_count &lt;- tv_ratings %&gt;%\n              count(type) # type can be any column in the data\n\ntype_count\n\n# A tibble: 2 × 2\n  type        n\n  &lt;chr&gt;   &lt;int&gt;\n1 Movie    5377\n2 TV Show  2410"
+  },
+  {
+    "objectID": "example_data.html",
+    "href": "example_data.html",
+    "title": "_Example data",
+    "section": "",
+    "text": "#| cache: true\n\nlibrary(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n\nglimpse(tv_ratings)"
+  },
+  {
+    "objectID": "example_data.html#get-the-tv-rating-data",
+    "href": "example_data.html#get-the-tv-rating-data",
+    "title": "_Example data",
+    "section": "",
+    "text": "#| cache: true\n\nlibrary(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n\nglimpse(tv_ratings)"
+  },
+  {
+    "objectID": "example_data.html#view-the-first-few-descriptions",
+    "href": "example_data.html#view-the-first-few-descriptions",
+    "title": "_Example data",
+    "section": "View the first few descriptions",
+    "text": "View the first few descriptions\n#| eval: false\n\nlibrary(DT)\n\ndatatable(tv_ratings %&gt;% head(15), options = list(pageLength = 5))"
+  },
+  {
+    "objectID": "posts/3_group_responses/index.html#load-the-data",
+    "href": "posts/3_group_responses/index.html#load-the-data",
+    "title": "3 — Group and code responses",
+    "section": "",
+    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#exclude-vanilla-stop-words",
+    "href": "posts/2_count_words/index.html#exclude-vanilla-stop-words",
+    "title": "2 — Count words",
+    "section": "Exclude vanilla stop words",
+    "text": "Exclude vanilla stop words\n\nstop words = Common words or phrases you don’t want to include, such as the, of, and to.\n\nCreate a list of the default stop words.\n\nexclude &lt;- get_stopwords()$word\n\nexclude %&gt;% head()\n\n[1] \"i\"      \"me\"     \"my\"     \"myself\" \"we\"     \"our\"   \n\n\nFirst, let’s count the occurrence of all words in the show descriptions.\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, description) %&gt;%\n              count(word, sort = TRUE) \n\nword_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word      n\n   &lt;chr&gt; &lt;int&gt;\n 1 a     10152\n 2 the    7226\n 3 to     5701\n 4 and    5629\n 5 of     4731\n 6 in     3920\n 7 his    3020\n 8 with   1976\n 9 her    1884\n10 an     1728\n\n\nNow we’ll exclude the stop words from the list with filter().\n\nword_count &lt;- tv_ratings %&gt;%\n              unnest_tokens(word, description) %&gt;%\n              filter(!word %in% exclude) %&gt;%\n              count(word, sort = TRUE) \n\nword_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word        n\n   &lt;chr&gt;   &lt;int&gt;\n 1 life      746\n 2 young     655\n 3 new       613\n 4 family    497\n 5 man       464\n 6 world     453\n 7 love      447\n 8 two       443\n 9 woman     402\n10 friends   383"
+  },
+  {
+    "objectID": "posts/2_count_words/index.html#additional-token-options",
+    "href": "posts/2_count_words/index.html#additional-token-options",
+    "title": "2 — Count words",
+    "section": "Additional token options",
+    "text": "Additional token options\n\nCount 2-word phrasesSplit phrases separated by a comma\n\n\n\ngenre_count &lt;- tv_ratings %&gt;%\n               unnest_ngrams(word, listed_in, n = 2) %&gt;%\n               count(word, sort = TRUE) \n\ngenre_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word                     n\n   &lt;chr&gt;                &lt;int&gt;\n 1 tv shows              2560\n 2 international movies  2437\n 3 international tv      1199\n 4 dramas international  1071\n 5 action adventure       871\n 6 shows tv               862\n 7 &lt;NA&gt;                   727\n 8 tv dramas              704\n 9 independent movies     673\n10 children family        532\n\n\n\n\nSince multiple genres are separated by a comma, we can treat each phrase before and after a comma as a single genre or token.\n\ngenre_count &lt;- tv_ratings %&gt;%\n               unnest_regex(word, listed_in, pattern = \", \") %&gt;%\n               count(word, sort = TRUE) \n\ngenre_count %&gt;% head(10)\n\n# A tibble: 10 × 2\n   word                         n\n   &lt;chr&gt;                    &lt;int&gt;\n 1 international movies      2437\n 2 dramas                    2106\n 3 comedies                  1471\n 4 international tv shows    1199\n 5 documentaries              786\n 6 action & adventure         721\n 7 tv dramas                  704\n 8 independent movies         673\n 9 children & family movies   532\n10 romantic movies            531"
+  },
+  {
+    "objectID": "posts/3_group_responses/index.html#assign-groups",
+    "href": "posts/3_group_responses/index.html#assign-groups",
+    "title": "3 — Group and code responses",
+    "section": "Assign groups",
+    "text": "Assign groups"
+  },
+  {
+    "objectID": "posts/3_group_responses/index.html#parent-and-child-nodes",
+    "href": "posts/3_group_responses/index.html#parent-and-child-nodes",
+    "title": "3 — Group and code responses",
+    "section": "Parent and child nodes",
+    "text": "Parent and child nodes"
+  }
+]

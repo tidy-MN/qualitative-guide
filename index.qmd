@@ -1,0 +1,12 @@
+---
+title: "Topics"
+listing:
+  contents: posts
+  sort: "title asc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: true
+page-layout: full
+title-block-banner: false
+---

@@ -1,0 +1,30 @@
+---
+title: "_Example data"
+date: "2024-01-02"
+date-modified: last-modified
+categories: [data]
+---
+
+
+## Get the TV rating data
+
+```r
+#| cache: true
+
+library(tidyverse)
+
+tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+
+glimpse(tv_ratings)
+```
+
+
+## View the first few descriptions
+```r
+#| eval: false
+
+library(DT)
+
+datatable(tv_ratings %>% head(15), options = list(pageLength = 5))
+```
+
