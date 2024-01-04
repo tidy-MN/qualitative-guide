@@ -1,1 +1,1 @@
-{"entries":[],"headings":["load-the-data","count-totals-in-each-group-or-category","count-totals-by-release-year-for-each-type","add-results-to-a-wide-format-table-with-totals","rank-occurence-of-words","additional-token-options","exclude-vanilla-stop-words","additional-stop-word-options"]}
+{"headings":["load-the-data","count-totals-in-each-group-or-category","count-totals-by-release-year-for-each-type","count-totals-in-wide-format-table","rank-occurence-of-words","additional-token-options","stop-words","excluding-unwanted-words","additional-stop-word-options"],"entries":[]}

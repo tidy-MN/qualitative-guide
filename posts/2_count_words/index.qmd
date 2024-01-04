@@ -22,7 +22,8 @@ filters:
 
 library(tidyverse)
 
-tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv') %>%
+              rename(genre = listed_in)
 ```
 
 
@@ -46,7 +47,7 @@ year_type_count %>% head()
 ```
 
 
-## Add results to a wide format table with totals
+## Count totals in wide format table
 ```{r}
 library(janitor)
 
@@ -68,7 +69,7 @@ Top **10** words in the genre column.
 library(tidytext)
 
 genre_count <- tv_ratings %>%
-               unnest_tokens(word, listed_in) %>%
+               unnest_tokens(word, genre) %>%
                count(word, sort = TRUE)
 
 genre_count %>% head(10)
@@ -81,10 +82,12 @@ genre_count %>% head(10)
 
 ### Count 2-word phrases
 
+Rather than counting every single word, we may be interested in counting how often words occur together. To do this we use `unnest_ngrams()` and set the *n* argument to `2`. The `<NA>` result is the count of shows that had fewer than two words in the genre column, such as `Documentaries`.
+
 ```{r}
 #| source-line-numbers: "2"
 genre_count <- tv_ratings %>%
-               unnest_ngrams(word, listed_in, n = 2) %>%
+               unnest_ngrams(word, genre, n = 2) %>%
                count(word, sort = TRUE) 
 
 genre_count %>% head(10)
@@ -92,12 +95,12 @@ genre_count %>% head(10)
 
 ### Split phrases separated by a comma
 
-Since multiple genres are separated by a comma, we can treat each phrase before and after a comma as a single genre or token.
+In this data set multiple genres are separated by a comma, so we can treat each phrase before and after a comma as a single genre or token. To do this we use `unnest_regex()` and set the *pattern* argument to `", "`. This will split the text wherever the sequence of a comma followed by a space occurs. Now the genres will be counted as they were intended in the data.
 
 ```{r}
 #| source-line-numbers: "2"
 genre_count <- tv_ratings %>%
-               unnest_regex(word, listed_in, pattern = ", ") %>%
+               unnest_regex(word, genre, pattern = ", ") %>%
                count(word, sort = TRUE) 
 
 genre_count %>% head(10)
@@ -105,31 +108,41 @@ genre_count %>% head(10)
 
 :::
 
-## Exclude vanilla stop words
+## Stop words
 
-> `stop words` = Common words or phrases you don't want to include, such as `the`, `of`, and `to`.
+> `stop words` = Common words or phrases such as `the`, `of`, and `to`.
 
-Create a list of the default stop words.
+When comparing survey responses and narratives, some of the most common words are often the articles, such as `the`, `a`, and `an`, that don't offer much in terms of signaling the intent or theme of the text. These filler words are commonly referred to as *stop words*. 
+
+A list of stop words is included in the `tidytext` package. Let's load the words and store them in a variable called `exclude`. Here's the first few for example, but go ahead and take a look at the full list to get a better understanding of what may be considered a stop word.
 
 ```{r}
-exclude <- get_stopwords()$word
+exclude <- stop_words$word
 
 exclude %>% head()
 ```
 
 
-First, let's count the occurrence of all words in the show descriptions.
+## Excluding unwanted words
+
+For this example we will focus on the `description` column. This column contains some free text describing the content of the show. 
+
+First, let's start by counting the occurrence of all words in the descriptions.
 
 ```{r}
 word_count <- tv_ratings %>%
               unnest_tokens(word, description) %>%
               count(word, sort = TRUE) 
 
-word_count %>% head(10)
+word_count %>% head(15)
 ```
 
+<br>
 
-Now we'll exclude the stop words from the list with `filter()`.
+Just as we expected. Lot's of stop words. 
+
+Let's exclude the stop words from the list with the `filter()` function. This should give us a much more informative list of words.
+
 ```{r}
 #| source-line-numbers: "3"
 word_count <- tv_ratings %>%
@@ -137,7 +150,7 @@ word_count <- tv_ratings %>%
               filter(!word %in% exclude) %>%
               count(word, sort = TRUE) 
 
-word_count %>% head(10)
+word_count %>% head(15)
 ```
 
 ## Additional stop word options
@@ -146,31 +159,36 @@ word_count %>% head(10)
 
 ### Exclude more words
 
+For a given data set there may be additional stop words that provide little insight into the text. For example, the words "tv" and "series" are not very informative if each row in your data is about a TV show.
+
 ```{r}
 #| source-line-numbers: "1-4"
-exclude <- c(get_stopwords()$word,
-              "new",
-              "series",
-              "one",
-              "two",
-              "documentary")
+exclude <- c(stop_words$word,
+             "tv",
+             "series",
+             "movie",
+             "documentary")
 
 word_count <- tv_ratings %>%
               unnest_tokens(word, description) %>%
               filter(!word %in% exclude) %>%
               count(word, sort = TRUE) 
 
-word_count %>% head(10)
+word_count %>% head(15)
 ```
 
 
 ### Keep some words
 
+Similarly, a word that is included in the stop word list may be informative for a particular data set. When this is the case, we want to keep the word by removing it from the exclusion list. For example, we may want to know the number of show descriptions that reference `one`, `two` or `three` characters or objects.
+
+Here's how we can keep the words "one", "two" and "three".
+
 ```{r}
 #| source-line-numbers: "3-5"
-exclude <- get_stopwords()$word
+exclude <- stop_words$word
 
-keep <- c("when", "while", "they")
+keep <- c("one", "two", "three")
 
 exclude <- exclude[!exclude %in% keep]
 
@@ -179,7 +197,7 @@ word_count <- tv_ratings %>%
               filter(!word %in% exclude) %>%
               count(word, sort = TRUE) 
 
-word_count %>% head(14)
+word_count %>% head(15)
 ```
 
 :::

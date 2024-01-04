@@ -145,10 +145,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link active" data-scroll-target="#load-the-data">Load the data</a></li>
   <li><a href="#count-totals-in-each-group-or-category" id="toc-count-totals-in-each-group-or-category" class="nav-link" data-scroll-target="#count-totals-in-each-group-or-category">Count totals in each group or category</a></li>
   <li><a href="#count-totals-by-release-year-for-each-type" id="toc-count-totals-by-release-year-for-each-type" class="nav-link" data-scroll-target="#count-totals-by-release-year-for-each-type">Count totals by release year for each type</a></li>
-  <li><a href="#add-results-to-a-wide-format-table-with-totals" id="toc-add-results-to-a-wide-format-table-with-totals" class="nav-link" data-scroll-target="#add-results-to-a-wide-format-table-with-totals">Add results to a wide format table with totals</a></li>
+  <li><a href="#count-totals-in-wide-format-table" id="toc-count-totals-in-wide-format-table" class="nav-link" data-scroll-target="#count-totals-in-wide-format-table">Count totals in wide format table</a></li>
   <li><a href="#rank-occurence-of-words" id="toc-rank-occurence-of-words" class="nav-link" data-scroll-target="#rank-occurence-of-words">Rank occurence of words</a></li>
   <li><a href="#additional-token-options" id="toc-additional-token-options" class="nav-link" data-scroll-target="#additional-token-options">Additional token options</a></li>
-  <li><a href="#exclude-vanilla-stop-words" id="toc-exclude-vanilla-stop-words" class="nav-link" data-scroll-target="#exclude-vanilla-stop-words">Exclude vanilla stop words</a></li>
+  <li><a href="#stop-words" id="toc-stop-words" class="nav-link" data-scroll-target="#stop-words">Stop words</a></li>
+  <li><a href="#excluding-unwanted-words" id="toc-excluding-unwanted-words" class="nav-link" data-scroll-target="#excluding-unwanted-words">Excluding unwanted words</a></li>
   <li><a href="#additional-stop-word-options" id="toc-additional-stop-word-options" class="nav-link" data-scroll-target="#additional-stop-word-options">Additional stop word options</a></li>
   </ul>
 </nav>
@@ -182,7 +183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 3, 2024</p>
+      <p class="date-modified">January 4, 2024</p>
     </div>
   </div>
     
@@ -193,10 +194,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="load-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_af029442598b905bfaaf5e8419733105">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_32f10af653e356961aac329cd7bf2af2">
 <div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tv_ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tv_ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="at">genre =</span> listed_in)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="count-totals-in-each-group-or-category" class="level2">
@@ -237,8 +239,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="add-results-to-a-wide-format-table-with-totals" class="level2">
-<h2 class="anchored" data-anchor-id="add-results-to-a-wide-format-table-with-totals">Add results to a wide format table with totals</h2>
+<section id="count-totals-in-wide-format-table" class="level2">
+<h2 class="anchored" data-anchor-id="count-totals-in-wide-format-table">Count totals in wide format table</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -268,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb8" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>genre_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unnest_tokens</span>(word, listed_in) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unnest_tokens</span>(word, genre) <span class="sc">%&gt;%</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>genre_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -295,9 +297,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Count 2-word phrases</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Split phrases separated by a comma</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Rather than counting every single word, we may be interested in counting how often words occur together. To do this we use <code>unnest_ngrams()</code> and set the <em>n</em> argument to <code>2</code>. The <code>&lt;NA&gt;</code> result is the count of shows that had fewer than two words in the genre column, such as <code>Documentaries</code>.</p>
 <div class="cell" data-source-line-numbers="2">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>genre_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unnest_ngrams</span>(word, listed_in, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unnest_ngrams</span>(word, genre, <span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>genre_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -319,10 +322,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Since multiple genres are separated by a comma, we can treat each phrase before and after a comma as a single genre or token.</p>
+<p>In this data set multiple genres are separated by a comma, so we can treat each phrase before and after a comma as a single genre or token. To do this we use <code>unnest_regex()</code> and set the <em>pattern</em> argument to <code>", "</code>. This will split the text wherever the sequence of a comma followed by a space occurs. Now the genres will be counted as they were intended in the data.</p>
 <div class="cell" data-source-line-numbers="2">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>genre_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unnest_regex</span>(word, listed_in, <span class="at">pattern =</span> <span class="st">", "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unnest_regex</span>(word, genre, <span class="at">pattern =</span> <span class="st">", "</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>genre_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -346,29 +349,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="exclude-vanilla-stop-words" class="level2">
-<h2 class="anchored" data-anchor-id="exclude-vanilla-stop-words">Exclude vanilla stop words</h2>
+<section id="stop-words" class="level2">
+<h2 class="anchored" data-anchor-id="stop-words">Stop words</h2>
 <blockquote class="blockquote">
-<p><code>stop words</code> = Common words or phrases you don’t want to include, such as <code>the</code>, <code>of</code>, and <code>to</code>.</p>
+<p><code>stop words</code> = Common words or phrases such as <code>the</code>, <code>of</code>, and <code>to</code>.</p>
 </blockquote>
-<p>Create a list of the default stop words.</p>
+<p>When comparing survey responses and narratives, some of the most common words are often the articles, such as <code>the</code>, <code>a</code>, and <code>an</code>, that don’t offer much in terms of signaling the intent or theme of the text. These filler words are commonly referred to as <em>stop words</em>.</p>
+<p>A list of stop words is included in the <code>tidytext</code> package. Let’s load the words and store them in a variable called <code>exclude</code>. Here’s the first few for example, but go ahead and take a look at the full list to get a better understanding of what may be considered a stop word.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> <span class="fu">get_stopwords</span>()<span class="sc">$</span>word</span>
+<div class="sourceCode cell-code" id="cb14" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> stop_words<span class="sc">$</span>word</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>exclude <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code>[1] "i"      "me"     "my"     "myself" "we"     "our"   </code></pre>
+<pre data-code-line-numbers=""><code>[1] "a"         "a's"       "able"      "about"     "above"     "according"</code></pre>
 </div>
 </div>
-<p>First, let’s count the occurrence of all words in the show descriptions.</p>
+</section>
+<section id="excluding-unwanted-words" class="level2">
+<h2 class="anchored" data-anchor-id="excluding-unwanted-words">Excluding unwanted words</h2>
+<p>For this example we will focus on the <code>description</code> column. This column contains some free text describing the content of the show.</p>
+<p>First, let’s start by counting the occurrence of all words in the descriptions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>word_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">unnest_tokens</span>(word, description) <span class="sc">%&gt;%</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code># A tibble: 10 × 2
+<pre data-code-line-numbers=""><code># A tibble: 15 × 2
    word      n
    &lt;chr&gt; &lt;int&gt;
  1 a     10152
@@ -380,31 +388,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  7 his    3020
  8 with   1976
  9 her    1884
-10 an     1728</code></pre>
+10 an     1728
+11 for    1579
+12 on     1558
+13 their  1472
+14 when   1325
+15 this   1246</code></pre>
 </div>
 </div>
-<p>Now we’ll exclude the stop words from the list with <code>filter()</code>.</p>
+<p><br></p>
+<p>Just as we expected. Lot’s of stop words.</p>
+<p>Let’s exclude the stop words from the list with the <code>filter()</code> function. This should give us a much more informative list of words.</p>
 <div class="cell" data-source-line-numbers="3">
 <div class="sourceCode cell-code" id="cb18" data-source-line-numbers="3" data-code-line-numbers="3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>word_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">unnest_tokens</span>(word, description) <span class="sc">%&gt;%</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> exclude) <span class="sc">%&gt;%</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code># A tibble: 10 × 2
-   word        n
-   &lt;chr&gt;   &lt;int&gt;
- 1 life      746
- 2 young     655
- 3 new       613
- 4 family    497
- 5 man       464
- 6 world     453
- 7 love      447
- 8 two       443
- 9 woman     402
-10 friends   383</code></pre>
+<pre data-code-line-numbers=""><code># A tibble: 15 × 2
+   word            n
+   &lt;chr&gt;       &lt;int&gt;
+ 1 life          746
+ 2 family        497
+ 3 world         453
+ 4 love          447
+ 5 woman         402
+ 6 friends       383
+ 7 series        358
+ 8 documentary   326
+ 9 school        290
+10 home          263
+11 lives         251
+12 takes         233
+13 father        228
+14 girl          209
+15 special       190</code></pre>
 </div>
 </div>
 </section>
@@ -414,42 +434,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Exclude more words</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Keep some words</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>For a given data set there may be additional stop words that provide little insight into the text. For example, the words “tv” and “series” are not very informative if each row in your data is about a TV show.</p>
 <div class="cell" data-source-line-numbers="1-4">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">get_stopwords</span>()<span class="sc">$</span>word,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"new"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"series"</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"one"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"two"</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"documentary"</span>)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>word_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">unnest_tokens</span>(word, description) <span class="sc">%&gt;%</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> exclude) <span class="sc">%&gt;%</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>              <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> <span class="fu">c</span>(stop_words<span class="sc">$</span>word,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>             <span class="st">"tv"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">"series"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">"movie"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">"documentary"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>word_count <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">unnest_tokens</span>(word, description) <span class="sc">%&gt;%</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> exclude) <span class="sc">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>              <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 2
+<pre><code># A tibble: 15 × 2
    word        n
    &lt;chr&gt;   &lt;int&gt;
  1 life      746
- 2 young     655
- 3 family    497
- 4 man       464
- 5 world     453
- 6 love      447
- 7 woman     402
- 8 friends   383
- 9 must      332
-10 find      305</code></pre>
+ 2 family    497
+ 3 world     453
+ 4 love      447
+ 5 woman     402
+ 6 friends   383
+ 7 school    290
+ 8 home      263
+ 9 lives     251
+10 takes     233
+11 father    228
+12 girl      209
+13 special   190
+14 save      189
+15 town      187</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>Similarly, a word that is included in the stop word list may be informative for a particular data set. When this is the case, we want to keep the word by removing it from the exclusion list. For example, we may want to know the number of show descriptions that reference <code>one</code>, <code>two</code> or <code>three</code> characters or objects.</p>
+<p>Here is how we can keep the words “one”, “two” and “three”.</p>
 <div class="cell" data-source-line-numbers="3-5">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> <span class="fu">get_stopwords</span>()<span class="sc">$</span>word</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> stop_words<span class="sc">$</span>word</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"when"</span>, <span class="st">"while"</span>, <span class="st">"they"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"one"</span>, <span class="st">"two"</span>, <span class="st">"three"</span>)</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>exclude <span class="ot">&lt;-</span> exclude[<span class="sc">!</span>exclude <span class="sc">%in%</span> keep]</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
@@ -458,25 +485,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span>word <span class="sc">%in%</span> exclude) <span class="sc">%&gt;%</span></span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>              <span class="fu">count</span>(word, <span class="at">sort =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">14</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>word_count <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 14 × 2
-   word        n
-   &lt;chr&gt;   &lt;int&gt;
- 1 when     1325
- 2 life      746
- 3 young     655
- 4 new       613
- 5 family    497
- 6 man       464
- 7 they      456
- 8 world     453
- 9 love      447
-10 two       443
-11 woman     402
-12 friends   383
-13 series    358
-14 while     339</code></pre>
+<pre><code># A tibble: 15 × 2
+   word            n
+   &lt;chr&gt;       &lt;int&gt;
+ 1 life          746
+ 2 family        497
+ 3 world         453
+ 4 love          447
+ 5 two           443
+ 6 woman         402
+ 7 friends       383
+ 8 series        358
+ 9 one           330
+10 documentary   326
+11 school        290
+12 home          263
+13 three         263
+14 lives         251
+15 takes         233</code></pre>
 </div>
 </div>
 </div>
