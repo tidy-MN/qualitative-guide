@@ -1,0 +1,16 @@
+---
+title: "4 — Discover groups: Topic modeling"
+date: "2024-01-04"
+date-modified: last-modified
+image: "../images/troopers_disguise.jpg"
+format:
+  html:
+    toc: true
+    warning: false
+    message: false
+categories: [find, groups, topics, model]
+filters:
+  - line-highlight
+---
+
+Let the computer sort responses into a designated number of groups or topics. Coming soon...

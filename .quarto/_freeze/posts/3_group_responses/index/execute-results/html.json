@@ -1,7 +1,7 @@
 {
-  "hash": "b8e37c2d74b0ef27536059fb1a3bc4c0",
+  "hash": "93a60f06275b34f80ed41b0dcfb16cbb",
   "result": {
-    "markdown": "---\ntitle: \"3 — Group and code responses\"\ndate: \"2024-01-02\"\ndate-modified: last-modified\nimage: \"sort_elmo.png\"\nformat:\n  html:\n    toc: true\n    warning: false\n    message: false\ncategories: [code, group, themes]\n---\n\n\n## Load the data\n\n::: {.cell hash='index_cache/html/unnamed-chunk-1_b1ef45026e9ad16576a93d47f0d5d2a2'}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n\ntv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n```\n:::\n\n\n\n## Assign groups \n\n\n## Parent and child nodes\n\n\n",
+    "markdown": "---\ntitle: \"3 — Group and code responses\"\ndate: \"2024-01-03\"\ndate-modified: last-modified\nimage: \"sort_elmo.png\"\nformat:\n  html:\n    toc: true\n    warning: false\n    message: false\ncategories: [code, group, themes]\n---\n\n\n## Load the data\n\n::: {.cell hash='index_cache/html/unnamed-chunk-1_b1ef45026e9ad16576a93d47f0d5d2a2'}\n\n```{.r .cell-code}\nlibrary(tidyverse)\n\ntv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')\n```\n:::\n\n\n\n## Assign groups \n\n\n## Parent and child nodes\n\n\n",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"

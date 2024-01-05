@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-01-02">
+<meta name="dcterms.date" content="2024-01-01">
 
 <title>Qualitative guide for R - 1 — Overview of R packages</title>
 <style>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="../../lab.health.state.mn.us" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/tidy-MN/qualitative-guide" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
@@ -144,6 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title">
 <h1 class="title">1 — Overview of R packages</h1>
   <div class="quarto-categories">
+    <div class="quarto-category">setup</div>
     <div class="quarto-category">packages</div>
   </div>
   </div>
@@ -156,14 +157,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 2, 2024</p>
+      <p class="date">January 1, 2024</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 3, 2024</p>
+      <p class="date-modified">January 5, 2024</p>
     </div>
   </div>
     
@@ -176,6 +177,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="install-r-packages">Install <code>R packages</code></h2>
 <p>R comes installed with many built-in functions and tools to help do your work.</p>
 <p>On top of this foundation referred to as <em>base R</em>, contributors create tools to make R easier to use and perform new tasks. These add-ons are called <code>packages</code>. These are made available to everyone to download for free.</p>
+<blockquote class="blockquote">
+<p><strong>Need R?</strong> Follow these <a href="https://tidy-mn.github.io/R-camp-penguins/page/install.html">installation steps</a>.</p>
+<p><strong>Need access to data?</strong> Submit a <a href="https://mn-itservices-myit.us.onbmc.com/dwp/app/#/catalog">Data related service request</a>.</p>
+</blockquote>
 </section>
 <section id="packages-used-for-qualitative-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="packages-used-for-qualitative-analysis">Packages used for qualitative analysis</h2>
@@ -186,12 +191,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br></p>
 <p><code>tidyverse</code> The tidyverse is an umbrella of helpful packages. One of the included packages is the <em>readr</em> package, which helps import data into R from a variety of formats.</p>
 <p><br><br></p>
-<p>The core tidyverse packages:</p>
+<p>The core tidyverse packages we’ll be using:</p>
 <ul>
 <li><code>readr</code> Load and save data stored as plain text, such as Comma Separated Values (CSVs).<br>
 </li>
-<li><code>dplyr</code> Clean, filter, transform, summarize and join data sets.<br>
-</li>
+<li><code>dplyr</code> Clean, filter, transform, summarize and join data sets.</li>
+<li><code>stringr</code> Edit, clean, and precisely search through text.</li>
 <li><code>ggplot2</code> Plot, chart, and graph data.</li>
 </ul>
 <p>See the full list of tidyverse packages at the <a href="https://www.tidyverse.org/packages/">tidyverse</a>.</p>
@@ -199,17 +204,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>Load data</p>
 </blockquote>
-<p><code>readxl</code> Load data from Excel<br>
-<code>DBI</code> Load data from databases with SQL<br>
-<code>haven</code> Load SAS, SPSS, and Stata files<br>
-<code>janitor</code> Clean and simplify column names and remove duplicates</p>
+<p><code>readxl</code> Load data from Excel.<br>
+<code>DBI</code> Load data from databases with SQL.<br>
+<code>haven</code> Load SAS, SPSS, and Stata files.<br>
+<code>janitor</code> Clean and simplify column names and remove duplicates.</p>
 <p><br></p>
 <blockquote class="blockquote">
 <p>Analyze text data</p>
 </blockquote>
-<p><code>stringr</code> Tools to edit and clean text and character strings.<br>
-<code>lubridate</code> Tools to format dates and perform calculations based on time.<br>
-<code>tidytext</code> Tools to count words and exclude stop words.</p>
+<p><code>tidytext</code> Tools to make text easier to analyze. <code>lubridate</code> Tools to format dates and perform calculations based on time.</p>
 <p><br></p>
 <blockquote class="blockquote">
 <p>Charts and visuals</p>
@@ -218,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br></p>
 <section id="add-r-packages" class="level3 note">
 <h3 class="anchored" data-anchor-id="add-r-packages">Add R packages</h3>
-<p>To use a <em>package</em> you first need to install it – much like a free App for your phone. To get a jump start on the workshop, you can copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio.</p>
+<p>To use a <em>package</em> you first need to install it – much like an App on your phone. Copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>new_packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"tidytext"</span>, <span class="st">"janitor"</span>, <span class="st">"curl"</span>, <span class="st">"stopwords"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -226,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p><img src="../images/install_screen.png" class="img-fluid" style="margin-top: 4px; width: 75%;"></p>
 <p><br></p>
-<p>Then press <code>ENTER</code> to begin the installation. If all goes well, you should start to see some messages appear similar to below. These will provide information on the installation progress.</p>
+<p>Then press <code>ENTER</code> to begin the installation. You should start to see some messages appear similar to below. These will provide information on the installation progress.</p>
 <p><img src="../images/install_msg.png" class="img-fluid" style="width:75.0%"></p>
 <p><br></p>
 <p>Did it work? Try running the code below to load the <code>tidyverse</code> package from your library and see if it is installed.</p>
@@ -253,24 +256,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <code>RODBC</code> Load data from Oracle databases.<br>
 <code>RMySQL</code>, <code>RPostgresSQL</code>, and <code>RSQLite</code> for connecting to SQL databases.<br>
 <code>pdftools</code> Read PDF documents.<br>
-<code>haven</code> Load data from SPSS, Stata and SAS.<br>
 <code>foreign</code> Load data from Minitab and Systat.<br>
 <code>R.matlab</code> Load data from Matlab.</p>
-<p><br></p>
-<blockquote class="blockquote">
-<p><strong>Manipulate data</strong></p>
-</blockquote>
-<p><code>stringr</code> Tools to edit and clean text and character strings.</p>
 <p><br></p>
 <blockquote class="blockquote">
 <p><strong>Maps</strong></p>
 </blockquote>
 <p><code>tidycensus</code> Download Census and American Community Survey data.<br>
-<code>leaflet</code> Display spatial data and make interactive maps. <br></p>
-<blockquote class="blockquote">
-<p>General</p>
-</blockquote>
-<p><code>remotes</code> Install packages directly from online sources like GitHub and Gitlab.</p>
+<code>leaflet</code> Display spatial data and make interactive maps.</p>
 <p><br></p>
 </section>
 <section id="update-r-packages" class="level1">

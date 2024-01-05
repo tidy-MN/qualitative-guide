@@ -1,9 +1,9 @@
 ---
 title: "1 — Overview of R packages"
-date: "2024-01-02"
+date: "2024-01-01"
 date-modified: last-modified
 image: "packages.png"
-categories: [packages]
+categories: [setup, packages]
 ---
 
 
@@ -12,6 +12,11 @@ categories: [packages]
 R comes installed with many built-in functions and tools to help do your work. 
 
 On top of this foundation referred to as _base R_, contributors create tools to make R easier to use and perform new tasks. These add-ons are called `packages`. These are made available to everyone to download for free.
+
+
+> **Need R?** Follow these [installation steps](https://tidy-mn.github.io/R-camp-penguins/page/install.html).
+>
+> **Need access to data?** Submit a [Data related service request](https://mn-itservices-myit.us.onbmc.com/dwp/app/#/catalog).
 
 
 ## Packages used for qualitative analysis
@@ -26,12 +31,12 @@ On top of this foundation referred to as _base R_, contributors create tools to 
 
 <br><br>
 
-The core tidyverse packages:
+The core tidyverse packages we'll be using:
 
 - `readr` Load and save data stored as plain text, such as Comma Separated Values (CSVs).  
-- `dplyr` Clean, filter, transform, summarize and join data sets.   
+- `dplyr` Clean, filter, transform, summarize and join data sets. 
+- `stringr` Edit, clean, and precisely search through text. 
 - `ggplot2` Plot, chart, and graph data.   
-
 
 See the full list of tidyverse packages at the [tidyverse](https://www.tidyverse.org/packages/).
 
@@ -39,21 +44,19 @@ See the full list of tidyverse packages at the [tidyverse](https://www.tidyverse
 
 >  Load data
 
-`readxl`    Load data from Excel   
-`DBI`       Load data from databases with SQL   
-`haven`     Load SAS, SPSS, and Stata files  
-`janitor`   Clean and simplify column names and remove duplicates
+`readxl`    Load data from Excel.   
+`DBI`       Load data from databases with SQL.   
+`haven`     Load SAS, SPSS, and Stata files.  
+`janitor`   Clean and simplify column names and remove duplicates.
      
-
 <br>
 
 >  Analyze text data
 
-`stringr`      Tools to edit and clean text and character strings.  
+`tidytext`     Tools to make text easier to analyze.
 `lubridate`    Tools to format dates and perform calculations based on time.  
-`tidytext`     Tools to count words and exclude stop words.
-  
 
+  
 <br>
 
 >  Charts and visuals
@@ -66,7 +69,7 @@ See the full list of tidyverse packages at the [tidyverse](https://www.tidyverse
 
 ### Add R packages
 
-To use a _package_ you first need to install it -- much like a free App for your phone. To get a jump start on the workshop, you can copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio. 
+To use a _package_ you first need to install it -- much like an App on your phone. Copy the text below and paste it into the RStudio console. The console is found on the left-side of the screen when you open RStudio. 
 
 
 ```{r, eval=F}
@@ -80,7 +83,7 @@ install.packages(new_packages)
 
 <br>
 
-Then press `ENTER` to begin the installation. If all goes well, you should start to see some messages appear similar to below. These will provide information on the installation progress.
+Then press `ENTER` to begin the installation. You should start to see some messages appear similar to below. These will provide information on the installation progress.
 
 ![](../images/install_msg.png){width="75%"}
 
@@ -113,15 +116,8 @@ library(tidyverse)
 `RODBC`     Load data from Oracle databases.  
 `RMySQL`, `RPostgresSQL`, and `RSQLite` for connecting to SQL databases.  
 `pdftools`  Read PDF documents.  
-`haven` Load data from SPSS, Stata and SAS.  
 `foreign`   Load data from Minitab and Systat.  
 `R.matlab`  Load data from Matlab.  
-
-<br>
-
-> __Manipulate data__
-
-`stringr`      Tools to edit and clean text and character strings.  
 
 <br>
 
@@ -129,12 +125,7 @@ library(tidyverse)
 > __Maps__
 
 `tidycensus`   Download Census and American Community Survey data.  
-`leaflet`      Display spatial data and make interactive maps. 
-<br>
-
-> General
-
-`remotes`    Install packages directly from online sources like GitHub and Gitlab.  
+`leaflet`      Display spatial data and make interactive maps.
 
 <br>
 

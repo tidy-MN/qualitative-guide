@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-01-04">
 
-<title>Qualitative guide for R - Topics</title>
+<title>Qualitative guide for R - 4 — Discover groups: Topic modeling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +24,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -61,40 +61,9 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -104,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Qualitative guide for R</span>
     </a>
   </div>
@@ -115,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item compact">
@@ -131,204 +100,55 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(4)</span></div><div class="category" data-category="code">code <span class="quarto-category-count">(1)</span></div><div class="category" data-category="count">count <span class="quarto-category-count">(1)</span></div><div class="category" data-category="find">find <span class="quarto-category-count">(1)</span></div><div class="category" data-category="group">group <span class="quarto-category-count">(1)</span></div><div class="category" data-category="groups">groups <span class="quarto-category-count">(1)</span></div><div class="category" data-category="model">model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="packages">packages <span class="quarto-category-count">(1)</span></div><div class="category" data-category="setup">setup <span class="quarto-category-count">(1)</span></div><div class="category" data-category="terms">terms <span class="quarto-category-count">(1)</span></div><div class="category" data-category="themes">themes <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tokens">tokens <span class="quarto-category-count">(1)</span></div><div class="category" data-category="topics">topics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="words">words <span class="quarto-category-count">(1)</span></div></div></div>
+    </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Topics</h1>
-</div>
+<h1 class="title">4 — Discover groups: Topic modeling</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">find</div>
+    <div class="quarto-category">groups</div>
+    <div class="quarto-category">topics</div>
+    <div class="quarto-category">model</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 4, 2024</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">January 5, 2024</p>
+    </div>
+  </div>
     
   </div>
   
 
 </header>
 
+<p>Let the computer sort responses into a designated number of groups or topics. Coming soon…</p>
 
 
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="setup,packages" data-listing-date-sort="1704088800000" data-listing-file-modified-sort="1704471829559" data-listing-date-modified-sort="1704471829000" data-listing-reading-time-sort="3">
-<div class="thumbnail">
-<p><a href="./posts/1_package_overview/index.html"> <img src="./posts/1_package_overview/packages.png" class="thumbnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="./posts/1_package_overview/index.html">
-<h3 class="no-anchor listing-title">
-1 — Overview of R packages
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('setup'); return false;">
-setup
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('packages'); return false;">
-packages
-</div>
-</div>
-<a href="./posts/1_package_overview/index.html">
-<div class="listing-description">
-R comes installed with many built-in functions and tools to help do your work.
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/1_package_overview/index.html">
-<div class="listing-date">
-Jan 1, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="count,words,terms,tokens" data-listing-date-sort="1704175200000" data-listing-file-modified-sort="1704400575970" data-listing-date-modified-sort="1704400575000" data-listing-reading-time-sort="5">
-<div class="thumbnail">
-<p><a href="./posts/2_count_words/index.html"> <img src="./posts/2_count_words/two.jpg" class="thumbnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="./posts/2_count_words/index.html">
-<h3 class="no-anchor listing-title">
-2 — Count words
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('count'); return false;">
-count
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('words'); return false;">
-words
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('terms'); return false;">
-terms
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('tokens'); return false;">
-tokens
-</div>
-</div>
-<a href="./posts/2_count_words/index.html">
-<div class="listing-description">
-<code>tokens</code> = words or phrases
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/2_count_words/index.html">
-<div class="listing-date">
-Jan 2, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="code,group,themes" data-listing-date-sort="1704261600000" data-listing-file-modified-sort="1704467749676" data-listing-date-modified-sort="1704467749000" data-listing-reading-time-sort="1">
-<div class="thumbnail">
-<p><a href="./posts/3_group_responses/index.html"> <img src="./posts/3_group_responses/sort_elmo.png" class="thumbnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="./posts/3_group_responses/index.html">
-<h3 class="no-anchor listing-title">
-3 — Group and code responses
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('code'); return false;">
-code
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('group'); return false;">
-group
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('themes'); return false;">
-themes
-</div>
-</div>
-<a href="./posts/3_group_responses/index.html">
-<div class="listing-description">
-
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/3_group_responses/index.html">
-<div class="listing-date">
-Jan 3, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="find,groups,topics,model" data-listing-date-sort="1704348000000" data-listing-file-modified-sort="1704467758437" data-listing-date-modified-sort="1704467758000" data-listing-reading-time-sort="1">
-<div class="thumbnail">
-<p><a href="./posts/4_topic_model/index.html"> <img src="./posts/images/troopers_disguise.jpg" class="thumbnail-image"> </a></p>
-</div>
-<div class="body">
-<a href="./posts/4_topic_model/index.html">
-<h3 class="no-anchor listing-title">
-4 — Discover groups: Topic modeling
-</h3>
-<div class="listing-subtitle">
-
-</div>
-</a>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('find'); return false;">
-find
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('groups'); return false;">
-groups
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('topics'); return false;">
-topics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('model'); return false;">
-model
-</div>
-</div>
-<a href="./posts/4_topic_model/index.html">
-<div class="listing-description">
-Let the computer sort responses into a designated number of groups or topics. Coming soon…
-</div>
-</a>
-</div>
-<div class="metadata">
-<a href="./posts/4_topic_model/index.html">
-<div class="listing-date">
-Jan 4, 2024
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -566,4 +386,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="../../site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.js" defer="true"></script>
 </body></html>
