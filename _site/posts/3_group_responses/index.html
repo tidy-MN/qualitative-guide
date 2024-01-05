@@ -142,8 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link active" data-scroll-target="#load-the-data">Load the data</a></li>
-  <li><a href="#assign-groups" id="toc-assign-groups" class="nav-link" data-scroll-target="#assign-groups">Assign groups</a></li>
-  <li><a href="#parent-and-child-nodes" id="toc-parent-and-child-nodes" class="nav-link" data-scroll-target="#parent-and-child-nodes">Parent and child nodes</a></li>
+  <li><a href="#assign-groups-parent-and-child-nodes" id="toc-assign-groups-parent-and-child-nodes" class="nav-link" data-scroll-target="#assign-groups-parent-and-child-nodes">Assign groups: Parent and child nodes</a></li>
   </ul>
 </nav>
     </div>
@@ -186,17 +185,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="load-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-data">Load the data</h2>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_b1ef45026e9ad16576a93d47f0d5d2a2">
+<div class="cell" data-hash="index_cache/html/unnamed-chunk-1_339e74111deb6cd4d1414da749302fb0">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tv_ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tv_ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv'</span>)  <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rename</span>(<span class="at">genre =</span> listed_in)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="assign-groups" class="level2">
-<h2 class="anchored" data-anchor-id="assign-groups">Assign groups</h2>
-</section>
-<section id="parent-and-child-nodes" class="level2">
-<h2 class="anchored" data-anchor-id="parent-and-child-nodes">Parent and child nodes</h2>
+<section id="assign-groups-parent-and-child-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="assign-groups-parent-and-child-nodes">Assign groups: Parent and child nodes</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://github.com/tidy-MN/qualitative-guide/raw/main/posts/data/example_parent_child_nodes.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> tv_ratings <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">unnest_tokens</span>(word, description, <span class="at">drop =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>tagged <span class="ot">&lt;-</span> <span class="fu">left_join</span>(words, nodes, <span class="at">by =</span> <span class="fu">join_by</span>(word <span class="sc">==</span> child)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nodes, <span class="at">by =</span> <span class="fu">join_by</span>(word <span class="sc">==</span> child_plural)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">parent =</span> <span class="fu">coalesce</span>(parent.x, parent.y),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">child =</span> <span class="fu">coalesce</span>(child, word),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">.keep =</span> <span class="st">"unused"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(parent) <span class="sc">%&gt;%</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>child_plural,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>child,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>         child)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

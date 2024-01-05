@@ -16,14 +16,32 @@ categories: [code, group, themes]
 #| cache: true
 
 library(tidyverse)
+library(tidytext)
 
-tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')  %>%
+              rename(genre = listed_in)
 ```
 
 
-## Assign groups 
+## Assign groups: Parent and child nodes
 
+```{r}
+#| eval: false
 
-## Parent and child nodes
+nodes <- read_csv("https://github.com/tidy-MN/qualitative-guide/raw/main/posts/data/example_parent_child_nodes.csv")
 
+words <- tv_ratings %>%
+         unnest_tokens(word, description, drop = FALSE)
 
+tagged <- left_join(words, nodes, by = join_by(word == child)) %>%
+  left_join(nodes, by = join_by(word == child_plural)) %>%
+  mutate(parent = coalesce(parent.x, parent.y),
+         child = coalesce(child, word),
+         .keep = "unused"
+         ) %>%
+  drop_na(parent) %>%
+  select(-child_plural,
+         -child,
+         child)
+
+```

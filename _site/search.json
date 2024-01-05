@@ -242,7 +242,7 @@
     "href": "posts/3_group_responses/index.html",
     "title": "3 — Group and code responses",
     "section": "",
-    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+    "text": "library(tidyverse)\nlibrary(tidytext)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')  %&gt;%\n              rename(genre = listed_in)"
   },
   {
     "objectID": "posts/2_count_words/index.html#additional-stop-word-options",
@@ -326,7 +326,7 @@
     "href": "posts/3_group_responses/index.html#load-the-data",
     "title": "3 — Group and code responses",
     "section": "",
-    "text": "library(tidyverse)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')"
+    "text": "library(tidyverse)\nlibrary(tidytext)\n\ntv_ratings &lt;- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')  %&gt;%\n              rename(genre = listed_in)"
   },
   {
     "objectID": "posts/2_count_words/index.html#exclude-vanilla-stop-words",
@@ -383,5 +383,12 @@
     "title": "4 — Discover groups: Topic modeling",
     "section": "",
     "text": "Let the computer sort responses into a designated number of groups or topics. Coming soon…"
+  },
+  {
+    "objectID": "posts/3_group_responses/index.html#assign-groups-parent-and-child-nodes",
+    "href": "posts/3_group_responses/index.html#assign-groups-parent-and-child-nodes",
+    "title": "3 — Group and code responses",
+    "section": "Assign groups: Parent and child nodes",
+    "text": "Assign groups: Parent and child nodes\n\nnodes &lt;- read_csv(\"https://github.com/tidy-MN/qualitative-guide/raw/main/posts/data/example_parent_child_nodes.csv\")\n\nwords &lt;- tv_ratings %&gt;%\n         unnest_tokens(word, description, drop = FALSE)\n\ntagged &lt;- left_join(words, nodes, by = join_by(word == child)) %&gt;%\n  left_join(nodes, by = join_by(word == child_plural)) %&gt;%\n  mutate(parent = coalesce(parent.x, parent.y),\n         child = coalesce(child, word),\n         .keep = \"unused\"\n         ) %&gt;%\n  drop_na(parent) %&gt;%\n  select(-child_plural,\n         -child,\n         child)"
   }
 ]
