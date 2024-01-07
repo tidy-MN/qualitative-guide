@@ -11,6 +11,28 @@ format:
 categories: [code, group, themes]
 ---
 
+
+## Crayon colors
+
+
+<img src="../crayons.jpg" style="margin-right: 20px; margin-bottom: 2px;" align="left" width="132">
+
+Let's start simple and assign crayons a color based on their descriptive names. Below is a table of 12 crayons and their names. We want to create a group for each of the primary colors - `red`, `yellow`, and `blue` - and an everything-else group labeled `other`. 
+
+We'll search for the primary color words in the name column for each of the crayons, and if a color word is *detected*, it will be assigned to the appropriate group. If none of the primary color words are detected, the crayon will be assigned to the group `other`.
+
+
+## Load the data
+```{r}
+
+library(tidyverse)
+library(tidytext)
+
+crayons <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/crayons.csv') 
+```
+
+
+
 ## Load the data
 ```{r}
 #| cache: true
@@ -28,7 +50,7 @@ tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytu
 ```{r}
 #| eval: false
 
-nodes <- read_csv("https://github.com/tidy-MN/qualitative-guide/raw/main/posts/data/example_parent_child_nodes.csv")
+nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/tv_parent_child_nodes.csv")
 
 words <- tv_ratings %>%
          unnest_tokens(word, description, drop = FALSE)

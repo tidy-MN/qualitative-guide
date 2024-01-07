@@ -3,6 +3,7 @@ title: "_Example data"
 date: "2024-01-02"
 date-modified: last-modified
 categories: [data]
+draft: true
 ---
 
 
