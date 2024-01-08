@@ -16,7 +16,7 @@ filters:
 ---
 
 
-## Load the data
+## Load the kids TV data
 
 Read in a table of kids TV shows on Netflix.
 ```{r}
@@ -42,7 +42,7 @@ type_count
 ## Count totals by release year for each type
 ```{r}
 year_type_count <- tv_shows %>%
-                   count(release_year, type) # Add multiple column names
+                   count(release_year, type) # Can add multiple column names
 
 year_type_count %>% head()
 ```
@@ -54,9 +54,11 @@ library(janitor)
 
 tv_tabyl <- tv_shows %>%
             tabyl(release_year, type) %>%
-            adorn_totals() 
+            adorn_totals("col") %>%
+            adorn_totals("row") %>%
+            filter(release_year > 2016)
 
-tv_tabyl %>% head() 
+tv_tabyl  
 ```
 
 
@@ -83,7 +85,7 @@ genre_count %>% head(10)
 
 ### Count 2-word phrases
 
-Rather than counting every single word, we may be interested in counting how often words occur together. To do this we use `unnest_ngrams()` and set the *n* argument to `2`. The `<NA>` result is the count of shows that had fewer than two words in the genre column, such as `Documentaries`.
+Rather than counting every single word, we may be interested in counting how often words occur together. To do this we use `unnest_ngrams()` and set the *n* argument to `2`. If an `<NA>` appears in the count column, it indicates a show that had fewer than two words in the genre column.
 
 ```{r}
 #| source-line-numbers: "2"
@@ -93,6 +95,9 @@ genre_count <- tv_shows %>%
 
 genre_count %>% head(10)
 ```
+
+> The words *children* and *family* were the most often to occur together.
+
 
 ### Split phrases separated by a comma
 
@@ -138,9 +143,10 @@ word_count <- tv_shows %>%
 word_count %>% head(15)
 ```
 
-<br>
 
-Just as we expected. Lot's of stop words. 
+> Just as we expected. Lot's of stop words. 
+
+<br>
 
 Let's exclude the stop words from the list with the `filter()` function. This should give us a much more informative list of words.
 
@@ -200,6 +206,8 @@ word_count <- tv_shows %>%
 
 word_count %>% head(15)
 ```
+
+> It appears `"two"` is the most common number to be referenced.
 
 :::
 

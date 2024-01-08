@@ -130,9 +130,54 @@ crayons_groups %>%
 > Success!
 
 
-## Assign groups: Parent and child nodes
+## Assign umbrella groups: Parent and child nodes
 
-### Load the TV data
+We want to sort our crayons into primary colors and secondary colors. To do this we'll need to check a crayon name for multiple words. For example, a crayon will be assigned to the primary color group if any of the following words occur in its name: `red`, `yellow`, or `blue`.
+
+The larger umbrella group is sometimes referred to as the *parent node*, and the individual terms that fall under it are its *children nodes*. Here's the table of our color groups in terms of parent and child nodes.
+
+```{r}
+color_group_nodes <- tribble(
+  ~parent, ~child,
+  "primary",   "red",
+  "primary",   "yellow",
+  "primary",   "blue",
+  "secondary", "green",
+  "secondary", "orange",
+  "secondary", "purple",
+)
+```
+
+
+## Fuzzy join primary and secondary
+
+Now we can repeat our previous fuzzy join steps to assign each of the crayons to `primary`, `secondary`, or `other`.
+
+```{r}
+color_group_nodes <- color_group_nodes %>%
+                     mutate(child_word = paste0("\\b", child, "\\b"))
+
+# Join the primary/secondary groups
+crayons_groups <- crayons %>%
+                  fuzzy_left_join(color_group_nodes, 
+                                  by = join_by(name == child_word), 
+                                  match_fun = str_detect) %>%
+                  replace_na(list(parent = "other"))
+
+crayons_groups %>%
+  select(id, name, parent, child) %>%
+  head(10)
+```
+
+
+
+## Assign multiple tags
+
+When we work with longer pieces of text we may want to assign it multiple groups or tags. For example, the description of a kids' TV show may be about both `dinosaurs` and `siblings`. 
+
+In this example we will label the shows about people and tag each description with the type of people it references, such as `sister`, `brother`, or `grandmother`.
+
+### Load the kids TV data
 ```{r}
 #| echo: false
 library(tidyverse)
@@ -151,6 +196,53 @@ tv_shows <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/kid
 ```
 
 
+### Split out every word (unnest) for easy joining
+```{r}
+tv_shows <- tv_shows %>%
+            unnest_tokens(word, description, drop = FALSE)
+```
+
+
+
+### Load the parent and child node table
+
+Here we provide an example parent/child node table to tag descriptions with various types of people. We include both the singular and plural version of a term - such as *uncle* and *uncles*. 
+
+```{r}
+tv_nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv")
+
+tv_nodes %>% head()
+```
+
+
+
+### Join the parent/child `nodes` table to `tv_shows`
+
+```{r}
+tv_groups <- tv_shows %>%
+             left_join(tv_nodes, 
+                       by = join_by(description == child)) %>%
+             select(-child_words)
+
+tv_groups %>%
+  select(title, description, parent, child) %>%
+  head()
+
+tv_groups %>%
+  select(title, description, parent, child) %>%
+  head() %>%
+  knitr::kable()
+
+```
+
+
+## Summarize
+
+
+
+---
+
+
 ### Load the parent and child node table
 
 Here we provide an example where we will search the text and assign groups based on multiple words. In this case, the singular and plural version of a term - such as *home* and *homes*, is included as a child node. We can add as many terms as we like to a child node by separating each word with a vertical bar symbol (`|`).
@@ -158,7 +250,6 @@ Here we provide an example where we will search the text and assign groups based
 ```{r}
 tv_nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/tv_parent_child_nodes.csv") 
 ```
-
 
 
 ### Create a multiple string detect function
@@ -174,6 +265,7 @@ multi_str_detect <- function(left, right) {
 ```
 
 ```{r}
+#| eval: false
 tv_nodes <- tv_nodes %>%
             rowwise() %>%
             mutate(child_words = paste0("\\b", str_split(child, "[|]") %>% unlist, "\\b", 
@@ -184,6 +276,7 @@ tv_nodes <- tv_nodes %>%
 
 ### Fuzzy join the parent/child `nodes` table to `tv_shows`
 ```{r}
+#| eval: false
 tv_groups <- tv_shows %>%
              fuzzy_left_join(tv_nodes, 
                              by = join_by(description == child_words),  
@@ -199,5 +292,8 @@ tv_groups %>%
   head() %>%
   knitr::kable()
 ```
+
+
+## Summarize
 
 
