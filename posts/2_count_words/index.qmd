@@ -211,7 +211,7 @@ word_count <- tv_shows %>%
 word_count %>% head(15)
 ```
 
-> It appears `"two"` is the most common number to be referenced.
+> It appears `"two"` was the most common number referenced in the show descriptions.
 
 :::
 

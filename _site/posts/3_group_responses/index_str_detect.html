@@ -149,25 +149,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
   <li><a href="#find-color-words" id="toc-find-color-words" class="nav-link" data-scroll-target="#find-color-words">Find color words</a></li>
-  <li><a href="#joining-groups-and-codes" id="toc-joining-groups-and-codes" class="nav-link" data-scroll-target="#joining-groups-and-codes">Joining groups and codes</a></li>
+  <li><a href="#fuzzy-join" id="toc-fuzzy-join" class="nav-link" data-scroll-target="#fuzzy-join">Fuzzy join</a></li>
   <li><a href="#create-the-group-table" id="toc-create-the-group-table" class="nav-link" data-scroll-target="#create-the-group-table">Create the group table</a></li>
-  <li><a href="#split-up-unnest-the-words-in-the-crayon-names-for-easy-joining" id="toc-split-up-unnest-the-words-in-the-crayon-names-for-easy-joining" class="nav-link" data-scroll-target="#split-up-unnest-the-words-in-the-crayon-names-for-easy-joining">Split-up (<code>unnest</code>) the words in the crayon names for easy joining</a></li>
-  <li><a href="#join-groups-with-left_join" id="toc-join-groups-with-left_join" class="nav-link" data-scroll-target="#join-groups-with-left_join">Join groups with <code>left_join</code></a></li>
-  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize">Summarize</a></li>
-  <li><a href="#set-nas-group-to-other" id="toc-set-nas-group-to-other" class="nav-link" data-scroll-target="#set-nas-group-to-other">Set <code>NA</code>’s group to “other”</a></li>
+  <li><a href="#join-groups-with-fuzzy_left_join" id="toc-join-groups-with-fuzzy_left_join" class="nav-link" data-scroll-target="#join-groups-with-fuzzy_left_join">Join groups with fuzzy_left_join</a></li>
+  <li><a href="#set-group-to-other-for-the-nas" id="toc-set-group-to-other-for-the-nas" class="nav-link" data-scroll-target="#set-group-to-other-for-the-nas">Set group to “other” for the <code>NA</code>’s</a></li>
+  <li><a href="#finding-complete-words" id="toc-finding-complete-words" class="nav-link" data-scroll-target="#finding-complete-words">Finding complete words</a></li>
   </ul></li>
-  <li><a href="#using-umbrella-groups-parent-and-child-codes" id="toc-using-umbrella-groups-parent-and-child-codes" class="nav-link" data-scroll-target="#using-umbrella-groups-parent-and-child-codes">Using umbrella groups: Parent and child codes</a>
-  <ul class="collapse">
-  <li><a href="#join-primary-and-secondary" id="toc-join-primary-and-secondary" class="nav-link" data-scroll-target="#join-primary-and-secondary">Join primary and secondary</a></li>
-  </ul></li>
-  <li><a href="#assign-multiple-tags-or-codes" id="toc-assign-multiple-tags-or-codes" class="nav-link" data-scroll-target="#assign-multiple-tags-or-codes">Assign multiple tags or codes</a>
+  <li><a href="#assign-umbrella-groups-parent-and-child-nodes" id="toc-assign-umbrella-groups-parent-and-child-nodes" class="nav-link" data-scroll-target="#assign-umbrella-groups-parent-and-child-nodes">Assign umbrella groups: Parent and child nodes</a></li>
+  <li><a href="#fuzzy-join-primary-and-secondary" id="toc-fuzzy-join-primary-and-secondary" class="nav-link" data-scroll-target="#fuzzy-join-primary-and-secondary">Fuzzy join primary and secondary</a></li>
+  <li><a href="#assign-multiple-tags" id="toc-assign-multiple-tags" class="nav-link" data-scroll-target="#assign-multiple-tags">Assign multiple tags</a>
   <ul class="collapse">
   <li><a href="#load-kids-tv-data" id="toc-load-kids-tv-data" class="nav-link" data-scroll-target="#load-kids-tv-data">Load kids TV data</a></li>
-  <li><a href="#split-up-unnest-the-words-for-easy-joining" id="toc-split-up-unnest-the-words-for-easy-joining" class="nav-link" data-scroll-target="#split-up-unnest-the-words-for-easy-joining">Split-up (<code>unnest</code>) the words for easy joining</a></li>
+  <li><a href="#split-up-unnest-every-word-for-easy-group-joining" id="toc-split-up-unnest-every-word-for-easy-group-joining" class="nav-link" data-scroll-target="#split-up-unnest-every-word-for-easy-group-joining">Split up / <code>unnest</code> every word for easy group joining</a></li>
   <li><a href="#load-the-parent-and-child-node-table" id="toc-load-the-parent-and-child-node-table" class="nav-link" data-scroll-target="#load-the-parent-and-child-node-table">Load the parent and child node table</a></li>
   <li><a href="#join-the-parentchild-nodes-table-to-the-tv_shows" id="toc-join-the-parentchild-nodes-table-to-the-tv_shows" class="nav-link" data-scroll-target="#join-the-parentchild-nodes-table-to-the-tv_shows">Join the parent/child <code>nodes</code> table to the <code>tv_shows</code></a></li>
   </ul></li>
-  <li><a href="#summarize-1" id="toc-summarize-1" class="nav-link" data-scroll-target="#summarize-1">Summarize</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize">Summarize</a></li>
   </ul>
 </nav>
     </div>
@@ -217,12 +214,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="load-the-data">Load the data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>crayons <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://tidy-mn.github.io/qualitative-guide/posts/data/crayons.csv'</span>) </span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>crayons <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://tidy-mn.github.io/qualitative-guide/posts/data/crayons.csv'</span>) </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>crayons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>crayons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
       id name            
@@ -265,101 +260,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="joining-groups-and-codes" class="level3">
-<h3 class="anchored" data-anchor-id="joining-groups-and-codes">Joining groups and codes</h3>
+<section id="fuzzy-join" class="level3">
+<h3 class="anchored" data-anchor-id="fuzzy-join">Fuzzy join</h3>
 <p>The approach above works well for a small number of groups, but it can be cumbersome when you have lots of groups to assign. If we wanted to sort the crayons into many more color groups, a better approach would be to create a table to store our group names and the associated color word.</p>
-<p>Then we can join the groups table to the crayons table. The end result is the same, but it requires less code and will be much easier to update when we want to add new groups or change the words associated with a group.</p>
-<p>Here’s the same example as above using the table joining approach.</p>
+<p>Then we can use <code>fuzzyjoin</code> to join the groups table to the crayons table. The end result is the same, but it requires less code and will be much easier to update when we want to add new groups or change the words associated with a group.</p>
+<p>Here’s the same example as above using the new table approach.</p>
 </section>
 <section id="create-the-group-table" class="level3">
 <h3 class="anchored" data-anchor-id="create-the-group-table">Create the group table</h3>
 <p>First, create a table of our groups with two columns:</p>
 <ul>
-<li><code>color_group</code> The group’s name</li>
+<li><code>group</code> The group name</li>
 <li><code>word</code> The word associated with the group</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>color_groups <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">color_group =</span> <span class="fu">c</span>(<span class="st">'RED'</span>,<span class="st">'YELLOW'</span>,<span class="st">'BLUE'</span>), </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">word =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"yellow"</span>, <span class="st">"blue"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fuzzyjoin)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>color_groups <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">group =</span> <span class="fu">c</span>(<span class="st">'RED'</span>,<span class="st">'YELLOW'</span>,<span class="st">'BLUE'</span>), </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">word =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"yellow"</span>, <span class="st">"blue"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="split-up-unnest-the-words-in-the-crayon-names-for-easy-joining" class="level3">
-<h3 class="anchored" data-anchor-id="split-up-unnest-the-words-in-the-crayon-names-for-easy-joining">Split-up (<code>unnest</code>) the words in the crayon names for easy joining</h3>
+<section id="join-groups-with-fuzzy_left_join" class="level3">
+<h3 class="anchored" data-anchor-id="join-groups-with-fuzzy_left_join">Join groups with fuzzy_left_join</h3>
+<p>Now we can join our two tables using the <code>name</code> column in the <em>crayons</em> table, and the <code>word</code> column in the <em>color_groups</em> table. The function used to search text for a given word is <code>str_detect</code>, which tests whether a given color word occurs anywhere in the crayon’s name.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>crayons <span class="ot">&lt;-</span> crayons <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">unnest_tokens</span>(word, name, <span class="at">drop =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="join-groups-with-left_join" class="level3">
-<h3 class="anchored" data-anchor-id="join-groups-with-left_join">Join groups with <code>left_join</code></h3>
-<p>Now we can join our two tables using the <code>word</code> column in the <em>crayons</em> table, and the <code>word</code> column in the <em>color_groups</em> table. The function used to join the tables together is <code>left_join</code>. It has a <code>by</code> argument used to set the columns for linking the two tables together. In this case, the tables both share a column named <code>word</code> that we want to join by.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">left_join</span>(color_groups, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">by =</span> <span class="fu">join_by</span>(word <span class="sc">==</span> word))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fuzzy_left_join</span>(color_groups, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="fu">join_by</span>(name <span class="sc">==</span> word), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">match_fun =</span> str_detect)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
-     id name           word    color_group
-  &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;      
-1     1 brick red      brick   &lt;NA&gt;       
-2     1 brick red      red     RED        
-3     2 vibrant orange vibrant &lt;NA&gt;       
-4     2 vibrant orange orange  &lt;NA&gt;       
-5     3 warm yellow    warm    &lt;NA&gt;       
-6     3 warm yellow    yellow  YELLOW     </code></pre>
+     id name           group  word  
+  &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt; 
+1     1 brick red      RED    red   
+2     2 vibrant orange &lt;NA&gt;   &lt;NA&gt;  
+3     3 warm yellow    YELLOW yellow
+4     4 slate green    &lt;NA&gt;   &lt;NA&gt;  
+5     5 indigo blue    BLUE   blue  
+6     6 grey black     &lt;NA&gt;   &lt;NA&gt;  </code></pre>
 </div>
 </div>
 </section>
-<section id="summarize" class="level3">
-<h3 class="anchored" data-anchor-id="summarize">Summarize</h3>
-<p>To reduce this long list of words down to a single row for each crayon, we can use the function <code>fill()</code> and <code>slice_head()</code>.</p>
+<section id="set-group-to-other-for-the-nas" class="level3">
+<h3 class="anchored" data-anchor-id="set-group-to-other-for-the-nas">Set group to “other” for the <code>NA</code>’s</h3>
+<p>Finally, we’ll use <code>replace_na()</code> to assign the crayons without a color group to the group “other”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons_groups <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">group_by</span>(id, name) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fill</span>(color_group, <span class="at">.direction =</span> <span class="st">"updown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>word)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 3
-# Groups:   id, name [6]
-     id name           color_group
-  &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;      
-1     1 brick red      RED        
-2     2 vibrant orange &lt;NA&gt;       
-3     3 warm yellow    YELLOW     
-4     4 slate green    &lt;NA&gt;       
-5     5 indigo blue    BLUE       
-6     6 grey black     &lt;NA&gt;       </code></pre>
-</div>
-</div>
-</section>
-<section id="set-nas-group-to-other" class="level3">
-<h3 class="anchored" data-anchor-id="set-nas-group-to-other">Set <code>NA</code>’s group to “other”</h3>
-<p>Finally, to tidy things up we’ll use <code>replace_na()</code> to assign the crayons without a color group to a group called “other”.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons_groups <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">color_group =</span> <span class="st">"other"</span>))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons_groups <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">group =</span> <span class="st">"other"</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, name, group) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 3
-# Groups:   id, name [10]
-      id name            color_group
-   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;      
- 1     1 brick red       RED        
- 2     2 vibrant orange  other      
- 3     3 warm yellow     YELLOW     
- 4     4 slate green     other      
- 5     5 indigo blue     BLUE       
- 6     6 grey black      other      
- 7     7 plum purple     other      
- 8     8 beige brown     other      
- 9     9 denim blue      BLUE       
-10    10 incredible pink other      </code></pre>
+      id name            group 
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; 
+ 1     1 brick red       RED   
+ 2     2 vibrant orange  other 
+ 3     3 warm yellow     YELLOW
+ 4     4 slate green     other 
+ 5     5 indigo blue     BLUE  
+ 6     6 grey black      other 
+ 7     7 plum purple     other 
+ 8     8 beige brown     other 
+ 9     9 denim blue      BLUE  
+10    10 incredible pink RED   </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Wait…what about row number 10? That’s interesting.</p>
+<p>Why do you think the <strong>incredible pink</strong> crayon was assigned to the group <code>RED</code>?</p>
+</blockquote>
+</section>
+<section id="finding-complete-words" class="level3">
+<h3 class="anchored" data-anchor-id="finding-complete-words">Finding complete words</h3>
+<p>In the example above, the function <code>str_detect()</code> looked for the occurrence of the designated letters anywhere in the crayon name. So the pattern of letters “r-e-d” is detected even if it occurs within another word. In this case, the pattern occurs within the name “inc<strong>red</strong>ible pink”. That could be useful in some contexts, but in our current crayon situation, we only want to detect the word “red”.</p>
+<p>To ensure the color “red” is only detected as a complete word, we can add a special character to the start and end of our search term. Adding the character <code>\\b</code> to both sides of “red” will require the letters “r-e-d” to occur as its own word and not as part of a longer word.</p>
+<p>Finally, let’s paste <code>\\b</code> to both sides of the color words in the <em>color_groups</em> table and then try our <code>fuzzy_left_join</code> one more time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>color_groups <span class="ot">&lt;-</span> color_groups <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">word =</span> <span class="fu">paste0</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>, word, <span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the groups again, but with the added separate word requirement</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fuzzy_left_join</span>(color_groups, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="fu">join_by</span>(name <span class="sc">==</span> word), </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">match_fun =</span> str_detect)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">group =</span> <span class="st">"other"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, name, group) <span class="sc">%&gt;%</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+      id name            group 
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; 
+ 1     1 brick red       RED   
+ 2     2 vibrant orange  other 
+ 3     3 warm yellow     YELLOW
+ 4     4 slate green     other 
+ 5     5 indigo blue     BLUE  
+ 6     6 grey black      other 
+ 7     7 plum purple     other 
+ 8     8 beige brown     other 
+ 9     9 denim blue      BLUE  
+10    10 incredible pink other </code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -367,106 +375,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 </section>
 </section>
-<section id="using-umbrella-groups-parent-and-child-codes" class="level2">
-<h2 class="anchored" data-anchor-id="using-umbrella-groups-parent-and-child-codes">Using umbrella groups: Parent and child codes</h2>
+<section id="assign-umbrella-groups-parent-and-child-nodes" class="level2">
+<h2 class="anchored" data-anchor-id="assign-umbrella-groups-parent-and-child-nodes">Assign umbrella groups: Parent and child nodes</h2>
 <p>We want to sort our crayons into primary colors and secondary colors. To do this we’ll need to check a crayon name for multiple words. For example, a crayon will be assigned to the primary color group if any of the following words occur in its name: <code>red</code>, <code>yellow</code>, or <code>blue</code>.</p>
-<p>The larger umbrella group is sometimes referred to as the <em>parent code</em>, and the individual terms that fall under it are its <em>children codes</em>. Here’s the table of our color groups in terms of parent and child codes.</p>
+<p>The larger umbrella group is sometimes referred to as the <em>parent node</em>, and the individual terms that fall under it are its <em>children nodes</em>. Here’s the table of our color groups in terms of parent and child nodes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>color_group_codes <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>parent, <span class="sc">~</span>child,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"primary"</span>,   <span class="st">"red"</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"primary"</span>,   <span class="st">"yellow"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"primary"</span>,   <span class="st">"blue"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"secondary"</span>, <span class="st">"green"</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"secondary"</span>, <span class="st">"orange"</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"secondary"</span>, <span class="st">"purple"</span>,</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>color_group_nodes <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>parent, <span class="sc">~</span>child,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"primary"</span>,   <span class="st">"red"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"primary"</span>,   <span class="st">"yellow"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"primary"</span>,   <span class="st">"blue"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"secondary"</span>, <span class="st">"green"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"secondary"</span>, <span class="st">"orange"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"secondary"</span>, <span class="st">"purple"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="join-primary-and-secondary" class="level3">
-<h3 class="anchored" data-anchor-id="join-primary-and-secondary">Join primary and secondary</h3>
+</section>
+<section id="fuzzy-join-primary-and-secondary" class="level2">
+<h2 class="anchored" data-anchor-id="fuzzy-join-primary-and-secondary">Fuzzy join primary and secondary</h2>
 <p>Now we can repeat our previous fuzzy join steps to assign each of the crayons to the groups: <code>primary</code>, <code>secondary</code>, or <code>other</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">left_join</span>(color_group_codes, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="fu">join_by</span>(word <span class="sc">==</span> child)) </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>color_group_nodes <span class="ot">&lt;-</span> color_group_nodes <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">mutate</span>(<span class="at">child_word =</span> <span class="fu">paste0</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>, child, <span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the primary/secondary groups</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fuzzy_left_join</span>(color_group_nodes, </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">by =</span> <span class="fu">join_by</span>(name <span class="sc">==</span> child_word), </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">match_fun =</span> str_detect) <span class="sc">%&gt;%</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">parent =</span> <span class="st">"other"</span>))</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, name, parent, child) <span class="sc">%&gt;%</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 4
-      id name           word    parent   
-   &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;    
- 1     1 brick red      brick   &lt;NA&gt;     
- 2     1 brick red      red     primary  
- 3     2 vibrant orange vibrant &lt;NA&gt;     
- 4     2 vibrant orange orange  secondary
- 5     3 warm yellow    warm    &lt;NA&gt;     
- 6     3 warm yellow    yellow  primary  
- 7     4 slate green    slate   &lt;NA&gt;     
- 8     4 slate green    green   secondary
- 9     5 indigo blue    indigo  &lt;NA&gt;     
-10     5 indigo blue    blue    primary  </code></pre>
-</div>
-</div>
-<section id="tidy-up" class="level4">
-<h4 class="anchored" data-anchor-id="tidy-up">Tidy up</h4>
-<p>Repeat our clean-up steps with <code>group_by</code>, <code>fill</code>, <code>slice_head</code>, and <code>replace_na</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="ot">&lt;-</span> crayons_groups <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">group_by</span>(id, name) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">fill</span>(parent, <span class="at">.direction =</span> <span class="st">"updown"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>word) <span class="sc">%&gt;%</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">parent =</span> <span class="st">"other"</span>))</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>crayons_groups <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 3
-# Groups:   id, name [10]
-      id name            parent   
-   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;    
- 1     1 brick red       primary  
- 2     2 vibrant orange  secondary
- 3     3 warm yellow     primary  
- 4     4 slate green     secondary
- 5     5 indigo blue     primary  
- 6     6 grey black      other    
- 7     7 plum purple     secondary
- 8     8 beige brown     other    
- 9     9 denim blue      primary  
-10    10 incredible pink other    </code></pre>
+      id name            parent    child 
+   &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt; 
+ 1     1 brick red       primary   red   
+ 2     2 vibrant orange  secondary orange
+ 3     3 warm yellow     primary   yellow
+ 4     4 slate green     secondary green 
+ 5     5 indigo blue     primary   blue  
+ 6     6 grey black      other     &lt;NA&gt;  
+ 7     7 plum purple     secondary purple
+ 8     8 beige brown     other     &lt;NA&gt;  
+ 9     9 denim blue      primary   blue  
+10    10 incredible pink other     &lt;NA&gt;  </code></pre>
 </div>
 </div>
 </section>
-</section>
-</section>
-<section id="assign-multiple-tags-or-codes" class="level2">
-<h2 class="anchored" data-anchor-id="assign-multiple-tags-or-codes">Assign multiple tags or codes</h2>
-<p>When we work with longer pieces of text we may want to assign a piece of text to multiple groups or tags. For example, the description of a kids’ TV show may be about both <code>dinosaurs</code> and <code>sisters</code>.</p>
-<p>In this example, we will label the shows about people and tag each description with the types of people it references, such as <code>sister</code>, <code>brother</code>, or <code>grandmother</code>.</p>
+<section id="assign-multiple-tags" class="level2">
+<h2 class="anchored" data-anchor-id="assign-multiple-tags">Assign multiple tags</h2>
+<p>When we work with longer pieces of text we may want to assign it multiple groups or tags. For example, the description of a kids’ TV show may be about both <code>dinosaurs</code> and <code>siblings</code>.</p>
+<p>In this example we will label the shows about people and tag each description with the type of people it references, such as <code>sister</code>, <code>brother</code>, or <code>grandmother</code>.</p>
 <section id="load-kids-tv-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-kids-tv-data">Load kids TV data</h3>
-<div class="cell" data-hash="index_cache/html/unnamed-chunk-12_9879496bd3639ea68c5a371907ddcf50">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fuzzyjoin)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>tv_shows <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://tidy-mn.github.io/qualitative-guide/posts/data/kids_netflix_shows.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_str_detect_cache/html/unnamed-chunk-10_f3761639a3c5c6f1b637102e1af0b6f8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fuzzyjoin)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>tv_shows <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://tidy-mn.github.io/qualitative-guide/posts/data/kids_netflix_shows.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="split-up-unnest-the-words-for-easy-joining" class="level3">
-<h3 class="anchored" data-anchor-id="split-up-unnest-the-words-for-easy-joining">Split-up (<code>unnest</code>) the words for easy joining</h3>
+<section id="split-up-unnest-every-word-for-easy-group-joining" class="level3">
+<h3 class="anchored" data-anchor-id="split-up-unnest-every-word-for-easy-group-joining">Split up / <code>unnest</code> every word for easy group joining</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tv_shows <span class="ot">&lt;-</span> tv_shows <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">unnest_tokens</span>(word, description, <span class="at">drop =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>tv_shows <span class="ot">&lt;-</span> tv_shows <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">unnest_tokens</span>(word, description, <span class="at">drop =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="load-the-parent-and-child-node-table" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-parent-and-child-node-table">Load the parent and child node table</h3>
-<p>Here we provide an example parent/child node table to tag descriptions with various types of people. Both the singular and plural version of each term is included - such as <em>uncle</em> and <em>uncles</em>.</p>
+<p>Here we provide an example parent/child node table to tag descriptions with various types of people. We include both the singular and plural version of a term - such as <em>uncle</em> and <em>uncles</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>people_codes <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>people_codes <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tv_nodes <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>tv_nodes <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   parent child child_words
@@ -483,20 +469,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="join-the-parentchild-nodes-table-to-the-tv_shows" class="level3">
 <h3 class="anchored" data-anchor-id="join-the-parentchild-nodes-table-to-the-tv_shows">Join the parent/child <code>nodes</code> table to the <code>tv_shows</code></h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_shows <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">left_join</span>(people_codes, </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">by =</span> <span class="fu">join_by</span>(word <span class="sc">==</span> child_words))</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the rows/words with no word matches</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_groups <span class="sc">%&gt;%</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(parent))</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># View word matches</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="sc">%&gt;%</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, description, parent, child) <span class="sc">%&gt;%</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(child) <span class="sc">%&gt;%</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_shows <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">left_join</span>(tv_nodes, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">by =</span> <span class="fu">join_by</span>(word <span class="sc">==</span> child_words))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the rows/words with no word matches</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_groups <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(parent))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># View word matches</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="sc">%&gt;%</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, description, parent, child) <span class="sc">%&gt;%</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(child) <span class="sc">%&gt;%</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -556,23 +542,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="summarize-1" class="level2">
-<h2 class="anchored" data-anchor-id="summarize-1">Summarize</h2>
+<section id="summarize" class="level2">
+<h2 class="anchored" data-anchor-id="summarize">Summarize</h2>
 <p>To simplify things, let’s take all of the parent and child tags assigned to each movie and bring them together into a comma separated list.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_groups <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(parent)) <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">group_by</span>(show_id, type, title, country, release_year, description) <span class="sc">%&gt;%</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarize</span>(<span class="at">parent_nodes =</span> <span class="fu">paste</span>(parent <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">child_nodes =</span> <span class="fu">paste</span>(child <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View groups</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="sc">%&gt;%</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, description, parent_nodes, child_nodes) <span class="sc">%&gt;%</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span><span class="fu">nchar</span>(child_nodes)) <span class="sc">%&gt;%</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_groups <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(parent)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">group_by</span>(show_id, type, title, country, release_year, description) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarize</span>(<span class="at">parent_nodes =</span> <span class="fu">paste</span>(parent <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">child_nodes =</span> <span class="fu">paste</span>(child <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View groups</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="sc">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, description, parent_nodes, child_nodes) <span class="sc">%&gt;%</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span><span class="fu">nchar</span>(child_nodes)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>

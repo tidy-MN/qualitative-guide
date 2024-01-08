@@ -146,10 +146,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-the-kids-tv-data" id="toc-load-the-kids-tv-data" class="nav-link active" data-scroll-target="#load-the-kids-tv-data">Load the kids TV data</a></li>
+  <li><a href="#load-kids-tv-data" id="toc-load-kids-tv-data" class="nav-link active" data-scroll-target="#load-kids-tv-data">Load kids TV data</a></li>
   <li><a href="#count-totals-in-each-group-or-category" id="toc-count-totals-in-each-group-or-category" class="nav-link" data-scroll-target="#count-totals-in-each-group-or-category">Count totals in each group or category</a></li>
   <li><a href="#count-totals-by-release-year-for-each-type" id="toc-count-totals-by-release-year-for-each-type" class="nav-link" data-scroll-target="#count-totals-by-release-year-for-each-type">Count totals by release year for each type</a></li>
-  <li><a href="#count-totals-in-wide-format-table" id="toc-count-totals-in-wide-format-table" class="nav-link" data-scroll-target="#count-totals-in-wide-format-table">Count totals in wide format table</a></li>
+  <li><a href="#count-type-totals-in-wide-format-table" id="toc-count-type-totals-in-wide-format-table" class="nav-link" data-scroll-target="#count-type-totals-in-wide-format-table">Count type totals in wide format table</a></li>
   <li><a href="#rank-occurence-of-words" id="toc-rank-occurence-of-words" class="nav-link" data-scroll-target="#rank-occurence-of-words">Rank occurence of words</a></li>
   <li><a href="#additional-token-options" id="toc-additional-token-options" class="nav-link" data-scroll-target="#additional-token-options">Additional token options</a></li>
   <li><a href="#stop-words" id="toc-stop-words" class="nav-link" data-scroll-target="#stop-words">Stop words</a></li>
@@ -196,8 +196,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="load-the-kids-tv-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-kids-tv-data">Load the kids TV data</h2>
+<section id="load-kids-tv-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-kids-tv-data">Load kids TV data</h2>
 <p>Read in a table of kids TV shows on Netflix.</p>
 <div class="cell" data-hash="index_cache/html/unnamed-chunk-1_6c8e3e729fee53de04cef9cf5a1eb90d">
 <div class="sourceCode cell-code" id="cb1" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -243,26 +243,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="count-totals-in-wide-format-table" class="level2">
-<h2 class="anchored" data-anchor-id="count-totals-in-wide-format-table">Count totals in wide format table</h2>
+<section id="count-type-totals-in-wide-format-table" class="level2">
+<h2 class="anchored" data-anchor-id="count-type-totals-in-wide-format-table">Count type totals in wide format table</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tv_tabyl <span class="ot">&lt;-</span> tv_shows <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">tabyl</span>(release_year, type) <span class="sc">%&gt;%</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">adorn_totals</span>(<span class="st">"col"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(release_year <span class="sc">&gt;</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">tabyl</span>(release_year, type) <span class="sc">%&gt;%</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">filter</span>(release_year <span class="sc">&gt;</span> <span class="dv">2016</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>tv_tabyl  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">adorn_pct_formatting</span>(<span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            adorn_ns <span class="sc">%&gt;%</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            adorn_title</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>tv_tabyl  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre data-code-line-numbers=""><code> release_year Movie TV Show Total
-         2017    48      52   100
-         2018    63      65   128
-         2019    72      56   128
-         2020    79      73   152
-         2021     1       4     5
-        Total   532     414   946</code></pre>
+<pre data-code-line-numbers=""><code>                   type          
+ release_year     Movie   TV Show
+         2017 48%  (48) 52%  (52)
+         2018 49%  (63) 51%  (65)
+         2019 56%  (72) 44%  (56)
+         2020 52%  (79) 48%  (73)
+         2021 20%   (1) 80%   (4)
+        Total 51% (263) 49% (250)</code></pre>
 </div>
 </div>
 </section>
@@ -519,7 +524,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <blockquote class="blockquote">
-<p>It appears <code>"two"</code> is the most common number to be referenced.</p>
+<p>It appears <code>"two"</code> was the most common number referenced in the show descriptions.</p>
 </blockquote>
 </div>
 </div>

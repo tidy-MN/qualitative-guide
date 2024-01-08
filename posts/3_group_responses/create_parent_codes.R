@@ -26,8 +26,8 @@ nodes <- tibble(parent = "people", child = "grandma", child_words = "grandma|gra
 nodes <- tibble(parent = "people", child = "grandpa", child_words = "grandpa|grandpas|grandfather|grandfathers") %>%
   bind_rows(nodes)
 
-nodes <- bind_rows(nodes,
-                   tibble(parent = "events", child = "birth", child_words = "birth|births|born"))
+#nodes <- bind_rows(nodes,
+#                   tibble(parent = "events", child = "birth", child_words = "birth|births|born"))
 
 nodes <- unnest_tokens(nodes, child_words, child_words, drop = FALSE)
 
@@ -41,5 +41,5 @@ nodes <- filter(nodes,
 nodes <- bind_rows(nodes %>% filter(parent == "people") %>% arrange(child),
                    nodes %>% filter(parent != "people") %>% arrange(desc(parent), child))
 
-write_csv(nodes, "posts/data/people_nodes.csv")
-write_csv(nodes, "_site/posts/data/people_nodes.csv")
+write_csv(nodes, "posts/data/people_codes.csv")
+write_csv(nodes, "_site/posts/data/people_codes.csv")

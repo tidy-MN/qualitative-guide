@@ -25,8 +25,6 @@ We'll begin by searching for the primary color words in the name column of each 
 ### Load the data
 ```{r}
 library(tidyverse)
-library(tidytext)
-
 
 crayons <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/crayons.csv') 
 
@@ -49,74 +47,86 @@ crayons_groups %>% head(5)
 ```
 
 
-### Joining groups and codes
+### Fuzzy join
 
 The approach above works well for a small number of groups, but it can be cumbersome when you have lots of groups to assign. If we wanted to sort the crayons into many more color groups, a better approach would be to create a table to store our group names and the associated color word. 
 
-Then we can join the groups table to the crayons table. The end result is the same, but it requires less code and will be much easier to update when we want to add new groups or change the words associated with a group.
+Then we can use `fuzzyjoin` to join the groups table to the crayons table. The end result is the same, but it requires less code and will be much easier to update when we want to add new groups or change the words associated with a group.
 
-Here's the same example as above using the table joining approach.
+Here's the same example as above using the new table approach.
 
 
 ### Create the group table
 
 First, create a table of our groups with two columns:
 
-- `color_group` The group's name
+- `group` The group name
 - `word` The word associated with the group
 
 ```{r}
+library(tidyverse)
+library(fuzzyjoin)
 
-color_groups <- tibble(color_group = c('RED','YELLOW','BLUE'), 
+color_groups <- tibble(group = c('RED','YELLOW','BLUE'), 
                        word = c("red", "yellow", "blue")) 
 ```
 
 
+### Join groups with fuzzy_left_join
 
-### Split-up (`unnest`) the words in the crayon names for easy joining
-```{r}
-crayons <- crayons %>%
-           unnest_tokens(word, name, drop = FALSE)
-```
-
-
-### Join groups with `left_join`
-
-Now we can join our two tables using the `word` column in the *crayons* table, and the `word` column in the *color_groups* table. The function used to join the tables together is `left_join`. It has a `by` argument used to set the columns for linking the two tables together. In this case, the tables both share a column named `word` that we want to join by.
+Now we can join our two tables using the `name` column in the *crayons* table, and the `word` column in the *color_groups* table. The function used to search text for a given word is `str_detect`, which tests whether a given color word occurs anywhere in the crayon's name. 
 
 ```{r}
 crayons_groups <- crayons %>%
-                  left_join(color_groups, 
-                           by = join_by(word == word))
+                  fuzzy_left_join(color_groups, 
+                                  by = join_by(name == word), 
+                                  match_fun = str_detect)
 
 crayons_groups %>% head()
 ```
 
 
-### Summarize
+### Set group to "other" for the `NA`'s
 
-To reduce this long list of words down to a single row for each crayon, we can use the function `fill()` and `slice_head()`.
+Finally, we'll use `replace_na()` to assign the crayons without a color group to the group "other".
 
 ```{r}
 crayons_groups <- crayons_groups %>%
-                  group_by(id, name) %>%
-                  fill(color_group, .direction = "updown") %>%
-                  slice_head(n = 1) %>%
-                  select(-word)
+                  replace_na(list(group = "other"))
 
-crayons_groups %>% head()
+crayons_groups %>%
+  select(id, name, group) %>%
+  head(10)
 ```
 
 
-### Set `NA`'s group to "other"
+> Wait...what about row number 10? That's interesting. 
+>
+> Why do you think the **incredible pink** crayon was assigned to the group `RED`?
 
-Finally, to tidy things up we'll use `replace_na()` to assign the crayons without a color group to a group called "other".
+
+### Finding complete words
+
+In the example above, the function `str_detect()` looked for the occurrence of the designated letters anywhere in the crayon name. So the pattern of letters "r-e-d" is detected even if it occurs within another word. In this case, the pattern occurs within the name "inc**red**ible pink". That could be useful in some contexts, but in our current crayon situation, we only want to detect the word "red". 
+
+To ensure the color "red" is only detected as a complete word, we can add a special character to the start and end of our search term. Adding the character `\\b` to both sides of "red" will require the letters "r-e-d" to occur as its own word and not as part of a longer word.
+
+Finally, let's paste `\\b` to both sides of the color words in the *color_groups* table and then try our `fuzzy_left_join` one more time.
 
 ```{r}
-crayons_groups <- crayons_groups %>%
-                  replace_na(list(color_group = "other"))
+color_groups <- color_groups %>%
+                mutate(word = paste0("\\b", word, "\\b"))
 
-crayons_groups %>% head(10)
+# Join the groups again, but with the added separate word requirement
+crayons_groups <- crayons %>%
+                  fuzzy_left_join(color_groups, 
+                                  by = join_by(name == word), 
+                                  match_fun = str_detect)
+
+crayons_groups %>%
+  replace_na(list(group = "other")) %>%
+  select(id, name, group) %>%
+  head(10)
 ```
 
 
@@ -124,14 +134,14 @@ crayons_groups %>% head(10)
 
 
 
-## Using umbrella groups: Parent and child codes
+## Assign umbrella groups: Parent and child nodes
 
 We want to sort our crayons into primary colors and secondary colors. To do this we'll need to check a crayon name for multiple words. For example, a crayon will be assigned to the primary color group if any of the following words occur in its name: `red`, `yellow`, or `blue`.
 
-The larger umbrella group is sometimes referred to as the *parent code*, and the individual terms that fall under it are its *children codes*. Here's the table of our color groups in terms of parent and child codes.
+The larger umbrella group is sometimes referred to as the *parent node*, and the individual terms that fall under it are its *children nodes*. Here's the table of our color groups in terms of parent and child nodes.
 
 ```{r}
-color_group_codes <- tribble(
+color_group_nodes <- tribble(
   ~parent, ~child,
   "primary",   "red",
   "primary",   "yellow",
@@ -143,41 +153,33 @@ color_group_codes <- tribble(
 ```
 
 
-### Join primary and secondary
+## Fuzzy join primary and secondary
 
 Now we can repeat our previous fuzzy join steps to assign each of the crayons to the groups: `primary`, `secondary`, or `other`.
 
 ```{r}
+color_group_nodes <- color_group_nodes %>%
+                     mutate(child_word = paste0("\\b", child, "\\b"))
+
+# Join the primary/secondary groups
 crayons_groups <- crayons %>%
-                  left_join(color_group_codes, 
-                            by = join_by(word == child)) 
-
-crayons_groups %>% head(10)
-```
-
-
-#### Tidy up
-
-Repeat our clean-up steps with `group_by`, `fill`, `slice_head`, and `replace_na`.
-```{r}
-crayons_groups <- crayons_groups %>%
-                  group_by(id, name) %>%
-                  fill(parent, .direction = "updown") %>%
-                  slice_head(n = 1) %>%
-                  select(-word) %>%
+                  fuzzy_left_join(color_group_nodes, 
+                                  by = join_by(name == child_word), 
+                                  match_fun = str_detect) %>%
                   replace_na(list(parent = "other"))
 
-crayons_groups %>% head(10)
+crayons_groups %>%
+  select(id, name, parent, child) %>%
+  head(10)
 ```
 
 
 
+## Assign multiple tags
 
-## Assign multiple tags or codes
+When we work with longer pieces of text we may want to assign it multiple groups or tags. For example, the description of a kids' TV show may be about both `dinosaurs` and `siblings`. 
 
-When we work with longer pieces of text we may want to assign a piece of text to multiple groups or tags. For example, the description of a kids' TV show may be about both `dinosaurs` and `sisters`. 
-
-In this example, we will label the shows about people and tag each description with the types of people it references, such as `sister`, `brother`, or `grandmother`.
+In this example we will label the shows about people and tag each description with the type of people it references, such as `sister`, `brother`, or `grandmother`.
 
 ### Load kids TV data
 ```{r}
@@ -198,7 +200,7 @@ tv_shows <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/kid
 ```
 
 
-### Split-up (`unnest`) the words for easy joining
+### Split up / `unnest` every word for easy group joining
 ```{r}
 tv_shows <- tv_shows %>%
             unnest_tokens(word, description, drop = FALSE)
@@ -207,21 +209,21 @@ tv_shows <- tv_shows %>%
 
 ### Load the parent and child node table
 
-Here we provide an example parent/child node table to tag descriptions with various types of people. Both the singular and plural version of each term is included - such as *uncle* and *uncles*. 
+Here we provide an example parent/child node table to tag descriptions with various types of people. We include both the singular and plural version of a term - such as *uncle* and *uncles*. 
 
 ```{r}
-people_codes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv")
+tv_nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv")
 
-people_codes %>% head()
+tv_nodes %>% head()
 ```
 
 
 
-### Join the `parent_codes` table to the `tv_shows`
+### Join the parent/child `nodes` table to the `tv_shows`
 
 ```{r}
 tv_groups <- tv_shows %>%
-             left_join(people_codes, 
+             left_join(tv_nodes, 
                        by = join_by(word == child_words))
 
 # Drop the rows/words with no word matches
