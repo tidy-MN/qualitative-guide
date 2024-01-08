@@ -16,7 +16,7 @@ filters:
 ---
 
 
-## Load the kids TV data
+## Load kids TV data
 
 Read in a table of kids TV shows on Netflix.
 ```{r}
@@ -48,15 +48,19 @@ year_type_count %>% head()
 ```
 
 
-## Count totals in wide format table
+## Count type totals in wide format table
 ```{r}
 library(janitor)
 
 tv_tabyl <- tv_shows %>%
+            filter(release_year > 2016) %>%
             tabyl(release_year, type) %>%
-            adorn_totals("col") %>%
             adorn_totals("row") %>%
-            filter(release_year > 2016)
+            adorn_percentages("row") %>%
+            adorn_pct_formatting(digits = 0) %>%
+            adorn_ns %>%
+            adorn_title
+            
 
 tv_tabyl  
 ```

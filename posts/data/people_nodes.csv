@@ -49,5 +49,7 @@ events,war,war
 events,war,wars
 events,death,death
 events,death,deaths
-events,murder,murder
-events,murder,murders
+events,birth,birth
+events,birth,births
+events,birth,born
+events,death,dying

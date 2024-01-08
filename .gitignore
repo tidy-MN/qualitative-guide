@@ -3,4 +3,8 @@
 .RData
 .Ruserdata
 
+*/_freeze/*
+_freeze/*
+.quarto/
+.quarto/*
 /.quarto/

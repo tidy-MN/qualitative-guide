@@ -49,9 +49,9 @@ crayons_groups %>% head(5)
 
 ### Fuzzy join
 
-The above approach can become cumbersome with lots of groups to assign. If we wanted to sort the crayons into many more color groups, a better approach would be to create a separate table to store our group names and the color word associated with it. Then we can use `fuzzyjoin` to join our groups table to the crayons table. The end result is the same, but it requires less code and will be easier to update if we want to add new groups or change the word or words associated with a group.
+The approach above works well for a small number of groups but it can become cumbersome when you have lots of groups to assign. If we wanted to sort the crayons into many more color groups, a better approach would be to create a table to store our group names and the color word associated with it. Then we can use `fuzzyjoin` to join the groups table to the crayons table. The end result is the same, but it requires less code and will be much easier to update when we want to add new groups or change the words associated with a group.
 
-Here's the same example but using the groups table approach and the `fuzzy_left_join` function from the `fuzzyjoin` package.
+Here's the same example as above using the new table approach.
 
 
 ### Create the group table
@@ -72,7 +72,7 @@ color_groups <- tibble(group = c('RED','YELLOW','BLUE'),
 
 ### Join groups with fuzzy_left_join
 
-We tell the function to join based on the `name` column in the *crayons* table, and the `word` column in the *color_groups* table. The function used to match the crayon name to its group is `str_detect`, which tests whether a given word occurs anywhere in the crayon's name. 
+Now we can join our two tables using the `name` column in the *crayons* table, and the `word` column in the *color_groups* table. The function used to match the crayon name to its group is `str_detect`, which tests whether a given word occurs anywhere in the crayon's name. 
 
 ```{r}
 crayons_groups <- crayons %>%
@@ -80,7 +80,7 @@ crayons_groups <- crayons %>%
                                   by = join_by(name == word), 
                                   match_fun = str_detect)
 
-crayons_groups
+crayons_groups %>% head()
 ```
 
 
@@ -98,18 +98,16 @@ crayons_groups %>%
 ```
 
 
-> Now that's interesting. Why do you think "incredible pink" assigend to the `RED` group?
+> Now that's interesting. Why do you think the **incredible pink** crayon was assigned to the group `RED`?
 
 
 ### Finding complete words
 
-In the example above, the function `str_detect()` looked for the occurrence of the designated letters anywhere in the crayon name. So the pattern of letters "r-e-d" would also be detected in the name "inc**red**ible pink". But in most cases that's not likely what we want. 
+In the example above, the function `str_detect()` looked for the occurrence of the designated letters anywhere in the crayon name. So the pattern of letters "r-e-d" is detected even if it occurs within another word. In this case, the pattern occurs within the name "inc**red**ible pink". That could be useful in some contexts, but in our current crayon situation, we only want to detect the word "red". 
 
-To ensure the color "red" is only detected as a complete word, we can add a special character to the start and end of our search term. Adding the character `\\b` to both sides of "red" will require the letters "r-e-d" to occur as its own word in the text and not as part of a longer word.
+To ensure the color "red" is only detected as a complete word, we can add a special character to the start and end of our search term. Adding the character `\\b` to both sides of "red" will require the letters "r-e-d" to occur as its own word and not as part of a longer word.
 
-<br>
-
-Let's paste `\\b` to both sides of the color words in our *color_groups* table before searching for them in the crayon names.
+Finally, let's paste `\\b` to both sides of the color words in the *color_groups* table and then try our fuzzyjoin one more time.
 
 ```{r}
 color_groups <- color_groups %>%
@@ -129,6 +127,20 @@ crayons_groups %>%
 
 > Success!
 
+
+### The **"other"** group
+
+We can lump the remaining crayons that were not labeled with a primary color into an *other* group. The `replace_na()` function is used to replace all of the `NA` values in a given column. Let's use it to set the group for the `NA` crayons to "other".
+
+
+```{r}
+crayons_groups <- crayons_groups %>%
+                  replace_na(list(group = "other"))
+
+crayons_groups %>%
+  select(id, name, group) %>%
+  head(10)
+```
 
 ## Assign umbrella groups: Parent and child nodes
 
@@ -177,7 +189,7 @@ When we work with longer pieces of text we may want to assign it multiple groups
 
 In this example we will label the shows about people and tag each description with the type of people it references, such as `sister`, `brother`, or `grandmother`.
 
-### Load the kids TV data
+### Load kids TV data
 ```{r}
 #| echo: false
 library(tidyverse)
@@ -196,12 +208,11 @@ tv_shows <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/kid
 ```
 
 
-### Split out every word (unnest) for easy joining
+### Split up / `unnest` every word for easy group joining
 ```{r}
 tv_shows <- tv_shows %>%
             unnest_tokens(word, description, drop = FALSE)
 ```
-
 
 
 ### Load the parent and child node table
@@ -216,79 +227,21 @@ tv_nodes %>% head()
 
 
 
-### Join the parent/child `nodes` table to `tv_shows`
+### Join the parent/child `nodes` table to the `tv_shows`
 
 ```{r}
 tv_groups <- tv_shows %>%
              left_join(tv_nodes, 
-                       by = join_by(description == child)) %>%
-             select(-child_words)
+                       by = join_by(word == child_words))
 
+# Drop the rows/words with no word matches
+tv_groups <- tv_groups %>%
+             filter(!is.na(parent))
+
+# View word matches
 tv_groups %>%
   select(title, description, parent, child) %>%
-  head()
-
-tv_groups %>%
-  select(title, description, parent, child) %>%
-  head() %>%
-  knitr::kable()
-
-```
-
-
-## Summarize
-
-
-
----
-
-
-### Load the parent and child node table
-
-Here we provide an example where we will search the text and assign groups based on multiple words. In this case, the singular and plural version of a term - such as *home* and *homes*, is included as a child node. We can add as many terms as we like to a child node by separating each word with a vertical bar symbol (`|`).
-
-```{r}
-tv_nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/tv_parent_child_nodes.csv") 
-```
-
-
-### Create a multiple string detect function
-```{r}
-#| eval: false
-#| echo: false
-multi_str_detect <- function(left, right) {
-  
-  regex_str <- paste0("\\b", str_split(right, "[|]") %>% unlist, "\\b", collapse = "|")
-  
-  str_detect(left, regex_str)
-}
-```
-
-```{r}
-#| eval: false
-tv_nodes <- tv_nodes %>%
-            rowwise() %>%
-            mutate(child_words = paste0("\\b", str_split(child, "[|]") %>% unlist, "\\b", 
-                                        collapse = "|"))
-```
-
-
-
-### Fuzzy join the parent/child `nodes` table to `tv_shows`
-```{r}
-#| eval: false
-tv_groups <- tv_shows %>%
-             fuzzy_left_join(tv_nodes, 
-                             by = join_by(description == child_words),  
-                             match_fun = str_detect) %>%
-             select(-child_words)
-
-tv_groups %>%
-  select(title, description, parent, child) %>%
-  head()
-
-tv_groups %>%
-  select(title, description, parent, child) %>%
+  arrange(child) %>%
   head() %>%
   knitr::kable()
 ```
@@ -296,4 +249,21 @@ tv_groups %>%
 
 ## Summarize
 
+To simplify things, let's take all of the assigned parent and child tags for each movie and bring them together into a comma separated list.
+
+```{r}
+tv_groups <- tv_groups %>%
+              filter(!is.na(parent)) %>%
+              group_by(show_id, type, title, country, release_year, description) %>%
+              summarize(parent_nodes = paste(parent %>% unique %>% sort, collapse = ", "),
+                        child_nodes = paste(child %>% unique %>% sort, collapse = ", "),
+                        .groups = "drop")
+  
+# View groups
+tv_groups %>%
+  select(title, description, parent_nodes, child_nodes) %>%
+  arrange(-nchar(child_nodes)) %>%
+  head(12) %>%
+  knitr::kable()
+```  
 
