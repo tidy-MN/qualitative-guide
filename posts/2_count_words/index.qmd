@@ -17,13 +17,14 @@ filters:
 
 
 ## Load the data
+
+Read in a table of kids TV shows on Netflix.
 ```{r}
 #| cache: true
 
 library(tidyverse)
 
-tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv') %>%
-              rename(genre = listed_in)
+tv_shows <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/kids_netflix_shows.csv')
 ```
 
 
@@ -31,7 +32,7 @@ tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytu
 ```{r}
 library(tidyverse)
 
-type_count <- tv_ratings %>%
+type_count <- tv_shows %>%
               count(type) # type can be any column in the data
 
 type_count
@@ -40,7 +41,7 @@ type_count
 
 ## Count totals by release year for each type
 ```{r}
-year_type_count <- tv_ratings %>%
+year_type_count <- tv_shows %>%
                    count(release_year, type) # Add multiple column names
 
 year_type_count %>% head()
@@ -51,7 +52,7 @@ year_type_count %>% head()
 ```{r}
 library(janitor)
 
-tv_tabyl <- tv_ratings %>%
+tv_tabyl <- tv_shows %>%
             tabyl(release_year, type) %>%
             adorn_totals() 
 
@@ -68,7 +69,7 @@ Top **10** words in the genre column.
 ```{r}
 library(tidytext)
 
-genre_count <- tv_ratings %>%
+genre_count <- tv_shows %>%
                unnest_tokens(word, genre) %>%
                count(word, sort = TRUE)
 
@@ -86,7 +87,7 @@ Rather than counting every single word, we may be interested in counting how oft
 
 ```{r}
 #| source-line-numbers: "2"
-genre_count <- tv_ratings %>%
+genre_count <- tv_shows %>%
                unnest_ngrams(word, genre, n = 2) %>%
                count(word, sort = TRUE) 
 
@@ -99,7 +100,7 @@ In this data set multiple genres are separated by a comma, so we can treat each 
 
 ```{r}
 #| source-line-numbers: "2"
-genre_count <- tv_ratings %>%
+genre_count <- tv_shows %>%
                unnest_regex(word, genre, pattern = ", ") %>%
                count(word, sort = TRUE) 
 
@@ -130,7 +131,7 @@ For this example we will focus on the `description` column. This column contains
 First, let's start by counting the occurrence of all words in the descriptions.
 
 ```{r}
-word_count <- tv_ratings %>%
+word_count <- tv_shows %>%
               unnest_tokens(word, description) %>%
               count(word, sort = TRUE) 
 
@@ -145,7 +146,7 @@ Let's exclude the stop words from the list with the `filter()` function. This sh
 
 ```{r}
 #| source-line-numbers: "3"
-word_count <- tv_ratings %>%
+word_count <- tv_shows %>%
               unnest_tokens(word, description) %>%
               filter(!word %in% exclude) %>%
               count(word, sort = TRUE) 
@@ -169,7 +170,7 @@ exclude <- c(stop_words$word,
              "movie",
              "documentary")
 
-word_count <- tv_ratings %>%
+word_count <- tv_shows %>%
               unnest_tokens(word, description) %>%
               filter(!word %in% exclude) %>%
               count(word, sort = TRUE) 
@@ -192,7 +193,7 @@ keep <- c("one", "two", "three")
 
 exclude <- exclude[!exclude %in% keep]
 
-word_count <- tv_ratings %>%
+word_count <- tv_shows %>%
               unnest_tokens(word, description) %>%
               filter(!word %in% exclude) %>%
               count(word, sort = TRUE) 

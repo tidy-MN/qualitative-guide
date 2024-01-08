@@ -1,12 +1,14 @@
 ---
 title: "About"
 about:
-  template: jolla
+  template: marquee
   links:
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/tidy-MN/qualitative-guide
 
 ---
 
-About this blog
+![Illustrations by Alison Hill and Allison Horst, for RStudio.](knit_hedgehog_rabbit_allison_horst.png){fig-alt="A round hedgehog knitting a yellow sock. A rabbit with a teal beanie and wearing one yellow sock watches in anticipation. A shelf to the left of them contains yarn (in a tote labeled 'TEXT' and knitting patterns (in a tote labeled 'CODE')." fig-align="center" width=80%}
+
+This guide is actively being developed and welcomes your input. To request a new topic or suggest edits submit a [New issue](https://github.com/tidy-MN/qualitative-guide/issues) on the development page. You can also post a question specific to your data to the [Requests for assistnace](https://teams.microsoft.com/l/channel/19%3afac52c418e5f48b48ba3fd5a3fc47140%40thread.skype/Requests%2520for%2520assistance?groupId=44cb2676-6137-4f1c-b7d0-9fbd672f9c65&tenantId=eb14b046-24c4-4519-8f26-b89c2159828c) channel in the R users Team.

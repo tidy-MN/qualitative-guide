@@ -10,8 +10,10 @@ crayons <- tibble(id = 1:12,
                            "Plum Purple",
                            "Beige Brown",
                            "Denim Blue",
-                           "Grayish Pink",
+                           "Incredible Pink",
                            "Sap Green",
-                           "Cloudy Off-White"))
+                           "Cloudy Off-White")) %>%
+          mutate(name = tolower(name))
 
 write_csv(crayons, "posts/data/crayons.csv")
+write_csv(crayons, "_site/posts/data/crayons.csv")

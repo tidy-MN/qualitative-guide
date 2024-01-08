@@ -6,6 +6,7 @@ image: "sort_elmo.png"
 format:
   html:
     toc: true
+    toc-depth: 3
     warning: false
     message: false
 categories: [code, group, themes]
@@ -14,56 +15,189 @@ categories: [code, group, themes]
 
 ## Crayon colors
 
-
-<img src="../crayons.jpg" style="margin-right: 20px; margin-bottom: 2px;" align="left" width="132">
+<img src="crayons.jpg" style="margin-right: 16px; margin-bottom: 2px; margin-left: -20px;" align="left" width="184" alt="A box of 12 Crayola crayons." >
 
 Let's start simple and assign crayons a color based on their descriptive names. Below is a table of 12 crayons and their names. We want to create a group for each of the primary colors - `red`, `yellow`, and `blue` - and an everything-else group labeled `other`. 
 
-We'll search for the primary color words in the name column for each of the crayons, and if a color word is *detected*, it will be assigned to the appropriate group. If none of the primary color words are detected, the crayon will be assigned to the group `other`.
+We'll begin by searching for the primary color words in the name column of each of the crayons. If a color word is *detected*, it will be assigned to the appropriate group. 
 
 
-## Load the data
+### Load the data
 ```{r}
-
 library(tidyverse)
-library(tidytext)
 
 crayons <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/crayons.csv') 
+
+crayons
 ```
 
 
+### Find color words
 
-## Load the data
+We'll use `case_when()` and `str_detect()` to test if a crayon name contains a given primary color word. If it does, we'll assign the crayon to that color. If none of the primary color words are detected, the crayon will be assigned to the group `other`.
+
+```{r}
+crayons_groups <- crayons %>%
+                  mutate(group = case_when(str_detect(name, "red") ~ "RED",
+                                           str_detect(name, "yellow") ~ "YELLOW",
+                                           str_detect(name, "blue") ~ "BLUE",
+                                           .default = "other"))
+
+crayons_groups %>% head(5)
+```
+
+
+### Fuzzy join
+
+The above approach can become cumbersome with lots of groups to assign. If we wanted to sort the crayons into many more color groups, a better approach would be to create a separate table to store our group names and the color word associated with it. Then we can use `fuzzyjoin` to join our groups table to the crayons table. The end result is the same, but it requires less code and will be easier to update if we want to add new groups or change the word or words associated with a group.
+
+Here's the same example but using the groups table approach and the `fuzzy_left_join` function from the `fuzzyjoin` package.
+
+
+### Create the group table
+
+First, create a table of our groups with two columns:
+
+- `group` The group name
+- `word` The word associated with the group
+
+```{r}
+library(tidyverse)
+library(fuzzyjoin)
+
+color_groups <- tibble(group = c('RED','YELLOW','BLUE'), 
+                       word = c("red", "yellow", "blue")) 
+```
+
+
+### Join groups with fuzzy_left_join
+
+We tell the function to join based on the `name` column in the *crayons* table, and the `word` column in the *color_groups* table. The function used to match the crayon name to its group is `str_detect`, which tests whether a given word occurs anywhere in the crayon's name. 
+
+```{r}
+crayons_groups <- crayons %>%
+                  fuzzy_left_join(color_groups, 
+                                  by = join_by(name == word), 
+                                  match_fun = str_detect)
+
+crayons_groups
+```
+
+
+### Set the `NA`'s group to "other"
+
+Finally, we'll use `replace_na()` to assign all of the crayons without a color group to the group "other".
+
+```{r}
+crayons_groups <- crayons_groups %>%
+                  replace_na(list(group = "other"))
+
+crayons_groups %>%
+  select(id, name, group) %>%
+  head(10)
+```
+
+
+> Now that's interesting. Why do you think "incredible pink" assigend to the `RED` group?
+
+
+### Finding complete words
+
+In the example above, the function `str_detect()` looked for the occurrence of the designated letters anywhere in the crayon name. So the pattern of letters "r-e-d" would also be detected in the name "inc**red**ible pink". But in most cases that's not likely what we want. 
+
+To ensure the color "red" is only detected as a complete word, we can add a special character to the start and end of our search term. Adding the character `\\b` to both sides of "red" will require the letters "r-e-d" to occur as its own word in the text and not as part of a longer word.
+
+<br>
+
+Let's paste `\\b` to both sides of the color words in our *color_groups* table before searching for them in the crayon names.
+
+```{r}
+color_groups <- color_groups %>%
+                mutate(word = paste0("\\b", word, "\\b"))
+
+# Join the groups again, but with the added separate word requirement
+crayons_groups <- crayons %>%
+                  fuzzy_left_join(color_groups, 
+                                  by = join_by(name == word), 
+                                  match_fun = str_detect)
+
+crayons_groups %>%
+  select(id, name, group) %>%
+  head(10)
+```
+
+
+> Success!
+
+
+## Assign groups: Parent and child nodes
+
+### Load the TV data
+```{r}
+#| echo: false
+library(tidyverse)
+library(tidytext)
+library(fuzzyjoin)
+```
+
 ```{r}
 #| cache: true
 
 library(tidyverse)
 library(tidytext)
+library(fuzzyjoin)
 
-tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')  %>%
-              rename(genre = listed_in)
+tv_shows <- read_csv('https://tidy-mn.github.io/qualitative-guide/posts/data/kids_netflix_shows.csv')
 ```
 
 
-## Assign groups: Parent and child nodes
+### Load the parent and child node table
+
+Here we provide an example where we will search the text and assign groups based on multiple words. In this case, the singular and plural version of a term - such as *home* and *homes*, is included as a child node. We can add as many terms as we like to a child node by separating each word with a vertical bar symbol (`|`).
 
 ```{r}
-#| eval: false
-
-nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/tv_parent_child_nodes.csv")
-
-words <- tv_ratings %>%
-         unnest_tokens(word, description, drop = FALSE)
-
-tagged <- left_join(words, nodes, by = join_by(word == child)) %>%
-  left_join(nodes, by = join_by(word == child_plural)) %>%
-  mutate(parent = coalesce(parent.x, parent.y),
-         child = coalesce(child, word),
-         .keep = "unused"
-         ) %>%
-  drop_na(parent) %>%
-  select(-child_plural,
-         -child,
-         child)
-
+tv_nodes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/tv_parent_child_nodes.csv") 
 ```
+
+
+
+### Create a multiple string detect function
+```{r}
+#| eval: false
+#| echo: false
+multi_str_detect <- function(left, right) {
+  
+  regex_str <- paste0("\\b", str_split(right, "[|]") %>% unlist, "\\b", collapse = "|")
+  
+  str_detect(left, regex_str)
+}
+```
+
+```{r}
+tv_nodes <- tv_nodes %>%
+            rowwise() %>%
+            mutate(child_words = paste0("\\b", str_split(child, "[|]") %>% unlist, "\\b", 
+                                        collapse = "|"))
+```
+
+
+
+### Fuzzy join the parent/child `nodes` table to `tv_shows`
+```{r}
+tv_groups <- tv_shows %>%
+             fuzzy_left_join(tv_nodes, 
+                             by = join_by(description == child_words),  
+                             match_fun = str_detect) %>%
+             select(-child_words)
+
+tv_groups %>%
+  select(title, description, parent, child) %>%
+  head()
+
+tv_groups %>%
+  select(title, description, parent, child) %>%
+  head() %>%
+  knitr::kable()
+```
+
+

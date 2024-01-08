@@ -7,14 +7,16 @@ draft: true
 ---
 
 
-## Get the TV rating data
+## Get the TV show data
 
 ```r
 #| cache: true
 
 library(tidyverse)
 
-tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv')
+tv_ratings <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-20/netflix_titles.csv') %>%
+  rename(genre = listed_in) %>%
+  filter(str_detect(genre, "Kids|Children"))
 
 glimpse(tv_ratings)
 ```
