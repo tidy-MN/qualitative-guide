@@ -5,6 +5,12 @@ nodes <- read_csv("posts/data/example_parent_child_nodes.csv") %>%
          mutate(child_words = paste(child, child_plural, sep = "|")) %>%
          select(-child_plural)
 
+nodes <- tibble(parent = "people", child = "mother", child_words = "mom|moms|ma|mamas") %>%
+  bind_rows(nodes)
+
+nodes <- tibble(parent = "people", child = "father", child_words = "dad|dads|papa|papas") %>%
+  bind_rows(nodes)
+
 nodes <- tibble(parent = "people", child = "human", child_words = "human|humans") %>%
          bind_rows(nodes)
 
@@ -30,8 +36,10 @@ nodes <- bind_rows(nodes,
 
 nodes <- filter(nodes,
                 parent %in% c("people", "places", "events"),
-                !child %in% c("murder")) #%>%
-         #arrange(desc(parent), child)
+                !child %in% c("murder"))
+
+nodes <- bind_rows(nodes %>% filter(parent == "people") %>% arrange(child),
+                   nodes %>% filter(parent != "people") %>% arrange(desc(parent), child))
 
 write_csv(nodes, "posts/data/people_nodes.csv")
 write_csv(nodes, "_site/posts/data/people_nodes.csv")
