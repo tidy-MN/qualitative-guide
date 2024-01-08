@@ -164,8 +164,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#load-kids-tv-data" id="toc-load-kids-tv-data" class="nav-link" data-scroll-target="#load-kids-tv-data">Load kids TV data</a></li>
   <li><a href="#split-up-unnest-the-words-for-easy-joining" id="toc-split-up-unnest-the-words-for-easy-joining" class="nav-link" data-scroll-target="#split-up-unnest-the-words-for-easy-joining">Split-up (<code>unnest</code>) the words for easy joining</a></li>
-  <li><a href="#load-the-parent-and-child-node-table" id="toc-load-the-parent-and-child-node-table" class="nav-link" data-scroll-target="#load-the-parent-and-child-node-table">Load the parent and child node table</a></li>
-  <li><a href="#join-the-parentchild-nodes-table-to-the-tv_shows" id="toc-join-the-parentchild-nodes-table-to-the-tv_shows" class="nav-link" data-scroll-target="#join-the-parentchild-nodes-table-to-the-tv_shows">Join the parent/child <code>nodes</code> table to the <code>tv_shows</code></a></li>
+  <li><a href="#load-the-parent-and-child-code-table" id="toc-load-the-parent-and-child-code-table" class="nav-link" data-scroll-target="#load-the-parent-and-child-code-table">Load the parent and child code table</a></li>
+  <li><a href="#join-the-parent_codes-table-to-the-tv_shows" id="toc-join-the-parent_codes-table-to-the-tv_shows" class="nav-link" data-scroll-target="#join-the-parent_codes-table-to-the-tv_shows">Join the <code>parent_codes</code> table to the <code>tv_shows</code></a></li>
   </ul></li>
   <li><a href="#summarize-1" id="toc-summarize-1" class="nav-link" data-scroll-target="#summarize-1">Summarize</a></li>
   </ul>
@@ -460,11 +460,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">unnest_tokens</span>(word, description, <span class="at">drop =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="load-the-parent-and-child-node-table" class="level3">
-<h3 class="anchored" data-anchor-id="load-the-parent-and-child-node-table">Load the parent and child node table</h3>
-<p>Here we provide an example parent/child node table to tag descriptions with various types of people. Both the singular and plural version of each term is included - such as <em>uncle</em> and <em>uncles</em>.</p>
+<section id="load-the-parent-and-child-code-table" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-parent-and-child-code-table">Load the parent and child code table</h3>
+<p>Here we provide an example parent/child code table to tag descriptions with various types of people. Both the singular and plural version of each term is included - such as <em>uncle</em> and <em>uncles</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>people_codes <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>people_codes <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://tidy-mn.github.io/qualitative-guide/posts/data/people_codes.csv"</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>people_codes <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -480,8 +480,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="join-the-parentchild-nodes-table-to-the-tv_shows" class="level3">
-<h3 class="anchored" data-anchor-id="join-the-parentchild-nodes-table-to-the-tv_shows">Join the parent/child <code>nodes</code> table to the <code>tv_shows</code></h3>
+<section id="join-the-parent_codes-table-to-the-tv_shows" class="level3">
+<h3 class="anchored" data-anchor-id="join-the-parent_codes-table-to-the-tv_shows">Join the <code>parent_codes</code> table to the <code>tv_shows</code></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_shows <span class="sc">%&gt;%</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">left_join</span>(people_codes, </span>
@@ -500,8 +500,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
-<col style="width: 18%">
-<col style="width: 75%">
+<col style="width: 19%">
+<col style="width: 74%">
 <col style="width: 3%">
 <col style="width: 2%">
 </colgroup>
@@ -539,16 +539,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">aunt</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">I Am Kalam</td>
-<td style="text-align: left;">An intelligent boy born into poverty befriends the son of a once noble family and is inspired by the life of India’s president to pursue an education.</td>
-<td style="text-align: left;">events</td>
-<td style="text-align: left;">birth</td>
+<td style="text-align: left;">A Babysitter’s Guide to Monster Hunting</td>
+<td style="text-align: left;">Recruited by a secret society of babysitters, a high schooler battles the Boogeyman and his monsters when they nab the boy she’s watching on Halloween.</td>
+<td style="text-align: left;">people</td>
+<td style="text-align: left;">boy</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">If I were an Animal</td>
-<td style="text-align: left;">Curious kids Emma and her big brother Tim observe different animals as they make their way through various life milestones, from birth to adulthood.</td>
-<td style="text-align: left;">events</td>
-<td style="text-align: left;">birth</td>
+<td style="text-align: left;">A Cinderella Story</td>
+<td style="text-align: left;">Teen Sam meets the boy of her dreams at a dance before returning to toil in her stepmother’s diner. Can her lost cell phone bring them together?</td>
+<td style="text-align: left;">people</td>
+<td style="text-align: left;">boy</td>
 </tr>
 </tbody>
 </table>
@@ -563,14 +563,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="ot">&lt;-</span> tv_groups <span class="sc">%&gt;%</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(parent)) <span class="sc">%&gt;%</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">group_by</span>(show_id, type, title, country, release_year, description) <span class="sc">%&gt;%</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarize</span>(<span class="at">parent_nodes =</span> <span class="fu">paste</span>(parent <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">child_nodes =</span> <span class="fu">paste</span>(child <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarize</span>(<span class="at">parent_codes =</span> <span class="fu">paste</span>(parent <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">child_codes =</span> <span class="fu">paste</span>(child <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> sort, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View groups</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View assigned codes in a single list</span></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>tv_groups <span class="sc">%&gt;%</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, description, parent_nodes, child_nodes) <span class="sc">%&gt;%</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span><span class="fu">nchar</span>(child_nodes)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, description, parent_codes, child_codes) <span class="sc">%&gt;%</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span><span class="fu">nchar</span>(child_codes)) <span class="sc">%&gt;%</span></span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -585,8 +585,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th style="text-align: left;">title</th>
 <th style="text-align: left;">description</th>
-<th style="text-align: left;">parent_nodes</th>
-<th style="text-align: left;">child_nodes</th>
+<th style="text-align: left;">parent_codes</th>
+<th style="text-align: left;">child_codes</th>
 </tr>
 </thead>
 <tbody>
@@ -621,10 +621,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">boy, home, mother, team</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">I Am Kalam</td>
-<td style="text-align: left;">An intelligent boy born into poverty befriends the son of a once noble family and is inspired by the life of India’s president to pursue an education.</td>
-<td style="text-align: left;">events, people</td>
-<td style="text-align: left;">birth, boy, family, son</td>
+<td style="text-align: left;">Lego Friends</td>
+<td style="text-align: left;">As a way to make friends, new girl in town Olivia volunteers to work at the Heartlake City World Petacular with four other girls.</td>
+<td style="text-align: left;">people, places</td>
+<td style="text-align: left;">city, girl, town, world</td>
 </tr>
 </tbody>
 </table>

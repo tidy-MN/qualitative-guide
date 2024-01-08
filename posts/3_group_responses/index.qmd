@@ -205,12 +205,12 @@ tv_shows <- tv_shows %>%
 ```
 
 
-### Load the parent and child node table
+### Load the parent and child code table
 
-Here we provide an example parent/child node table to tag descriptions with various types of people. Both the singular and plural version of each term is included - such as *uncle* and *uncles*. 
+Here we provide an example parent/child code table to tag descriptions with various types of people. Both the singular and plural version of each term is included - such as *uncle* and *uncles*. 
 
 ```{r}
-people_codes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/people_nodes.csv")
+people_codes <- read_csv("https://tidy-mn.github.io/qualitative-guide/posts/data/people_codes.csv")
 
 people_codes %>% head()
 ```
@@ -245,14 +245,14 @@ To simplify things, let's take all of the parent and child tags assigned to each
 tv_groups <- tv_groups %>%
               filter(!is.na(parent)) %>%
               group_by(show_id, type, title, country, release_year, description) %>%
-              summarize(parent_nodes = paste(parent %>% unique %>% sort, collapse = ", "),
-                        child_nodes = paste(child %>% unique %>% sort, collapse = ", "),
+              summarize(parent_codes = paste(parent %>% unique %>% sort, collapse = ", "),
+                        child_codes = paste(child %>% unique %>% sort, collapse = ", "),
                         .groups = "drop")
   
-# View groups
+# View assigned codes in a single list
 tv_groups %>%
-  select(title, description, parent_nodes, child_nodes) %>%
-  arrange(-nchar(child_nodes)) %>%
+  select(title, description, parent_codes, child_codes) %>%
+  arrange(-nchar(child_codes)) %>%
   head() %>%
   knitr::kable()
 ```  
