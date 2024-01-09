@@ -54,15 +54,10 @@ See the full list of tidyverse packages at the [tidyverse](https://www.tidyverse
 >  Analyze text data
 
 `tidytext`     Tools to make text easier to analyze.
+`fuzzyjoin`    Tools to make join words that are approximately the same.
 `lubridate`    Tools to format dates and perform calculations based on time.  
 
   
-<br>
-
->  Charts and visuals
-
-`ggplot2`      Essential package for plots and charts.
-
 <br>
 
 <div class="note">
@@ -103,9 +98,7 @@ library(tidyverse)
 
 > __Charts and visuals__
 
-`ggsave`  Export charts in various formats and sizes.  
 `hrbrthemes`, `ggthemes`   Chart themes for ggplot.  
-`viridis`, `wesanderson`, `ghibli`   Color palettes.  
 `rmarkdown`    Write summary reports and save as a PDF, Word document, presentation, or a web report.  
 
 <br>
