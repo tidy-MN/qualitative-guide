@@ -3,6 +3,7 @@ title: "3 — Group and code responses"
 date: "2024-01-03"
 date-modified: last-modified
 image: "sort_elmo.png"
+description: "Assign responses to groups based on the occurrence of key words."
 format:
   html:
     toc: true
