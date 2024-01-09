@@ -15,7 +15,7 @@ categories: [code, group, themes]
 
 ## Crayon colors
 
-<img src="crayons.jpg" style="margin-right: 16px; margin-bottom: 2px; margin-left: -20px;" align="left" width="184" alt="A box of 12 Crayola crayons." >
+<img src="crayons.jpg" style="margin-right: 16px; margin-bottom: 2px; margin-left: -20px;" align="left" width="184" alt="A box of 12 Crayola crayons.">
 
 Let's start simple and assign crayons a color based on their descriptive names. Below is a table of 12 crayons and their names. We want to create a group for each of the primary colors - `red`, `yellow`, and `blue` - and an everything-else group labeled `other`. 
 
